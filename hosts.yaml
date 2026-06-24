@@ -8,18 +8,7 @@
 # Global variables moved out of the implicit "all" group.
 
 globals:
-  vars:
-    dns_servers:
-      - 192.168.10.1
-    ad_domain: bruteware.cc
-    ad_bind_username: ansible-bind@{{ ad_domain | upper }}
-    ad_bind_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          33323364383235663934656537
-    local_admin_account: Administrator
-    administrators:
-      - "{{ local_admin_account }}"
-      - "engineering@{{ ad_domain }}"
+  vars: {}
 
 linux:
   children:

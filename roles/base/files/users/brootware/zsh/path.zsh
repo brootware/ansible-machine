@@ -1,1 +1,1 @@
-path+=/home/jay/.local/bin
+path+=/home/brootware/.local/bin
