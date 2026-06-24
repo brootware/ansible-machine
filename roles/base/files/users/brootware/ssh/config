@@ -1,0 +1,37 @@
+Host gitrunner
+  HostName gitrunner.bruteware.cc
+  User goodegg
+
+Host mediabox
+  HostName mediabox.bruteware.cc
+  User goodegg
+
+Host traefik
+  HostName traefik-dashboard.bruteware.cc
+  User goodegg
+
+Host pwncollege
+  HostName dojo.pwn.college
+  IdentityFile ~/.ssh/id_ed25519
+  User hacker
+
+Host leo
+  HostName 192.168.10.11
+  User root
+
+Host pio
+  Hostname 192.168.10.12
+  User root
+
+Host sue
+  HostName 192.168.10.13
+  User root
+
+Host ansible
+  Hostname aap.bruteware.cc
+  User sysadmin
+
+Host glance
+  Hostname startbox.bruteware.cc
+  User goodegg
+
