@@ -68,8 +68,8 @@ if [ -f /usr/bin/apt ]; then
   alias upgrade='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove && sudo apt clean'
   alias install='sudo apt install'
 fi
-if [ -f /usr/bin/pacman ]; then
-  alias update='sudo pacman -Syyy'
-  alias upgrade='sudo pacman -Syu'
-  alias install='sudo pacman -S'
+if [ -f /usr/bin/dnf ]; then
+  alias update='sudo dnf -Syyy'
+  alias upgrade='sudo dnf -Syu'
+  alias install='sudo dnf -S'
 fi
