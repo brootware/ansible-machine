@@ -1,0 +1,74 @@
+---
+# hosts, vms, and containers. To audit the inventory structure, run:
+# ansible-inventory -i inventory.yml --graph
+
+# 1. GROUP COMPOSITION (Groups of groups)
+# These meta-groups combine the host groups above.
+# The 'all' group implicitly contains everything.
+# Global variables moved out of the implicit "all" group.
+
+globals:
+  vars:
+    dns_servers:
+      - 192.168.10.1
+    ad_domain: bruteware.cc
+    ad_bind_username: ansible-bind@{{ ad_domain | upper }}
+    ad_bind_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33323364383235663934656537
+    local_admin_account: Administrator
+    administrators:
+      - "{{ local_admin_account }}"
+      - "engineering@{{ ad_domain }}"
+
+linux:
+  children:
+    proxmoxhosts:
+    linux-vms:
+    containers:
+    dns:
+
+windows:
+  children:
+    windows-vms:
+    windows-server-vms:
+  vars:
+    ansible_shell_type: cmd
+    ansible_connection: ssh
+
+# ----------------------------------------------------
+# 2. HOST DEFINITIONS (Groups of hosts)
+# These groups contain your actual servers.
+
+proxmoxhosts:
+  hosts:
+    192.168.10.11:
+    192.168.10.12:
+    192.168.10.13:
+
+linux-vms:
+  hosts:
+    minty.bruteware.cc:         # mintyadmin
+    mediabox.bruteware.cc:
+    gitrunner.bruteware.cc:
+    stratolab.bruteware.cc:
+    # mintmate.bruteware.cc:
+
+containers:
+  hosts:
+    vdi.bruteware.cc:
+    startbox.bruteware.cc:
+    gitbox.bruteware.cc:
+
+dns:
+  hosts:
+    traefik-dashboard.bruteware.cc:   # dns machine
+
+windows-vms:
+  hosts:
+    win.bruteware.cc:
+    # reverser.bruteware.cc:
+
+windows-server-vms:
+  hosts:
+    dc01.bruteware.cc:
