@@ -167,9 +167,7 @@
     - { src: 'cmake.vim' }
     - { src: 'cpp.vim' }
     - { src: 'html.vim' }
-    - { src: 'perl.vim' }
     - { src: 'python.vim' }
-    - { src: 'ruby.vim' }
     - { src: 'sql.vim' }
     - { src: 'xml.vim' }
 
