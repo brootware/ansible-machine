@@ -43,7 +43,6 @@
   with_file:
     - users/brootware/ssh/brootware_id_ed25519.pub
     - users/brootware/ssh/brootware_id_rsa.pub
-    - users/brootware/ssh/config
 
 - name: users | brootware | create config directories
   tags: dotfiles,brootware,tmux,users,vim,zsh
