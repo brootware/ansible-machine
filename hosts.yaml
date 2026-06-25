@@ -12,36 +12,14 @@ globals:
 
 linux:
   children:
-    proxmoxhosts:
-    linux-vms:
     containers:
-    dns:
-
-windows:
-  children:
-    windows-vms:
-    windows-server-vms:
-  vars:
-    ansible_shell_type: cmd
-    ansible_connection: ssh
+    workstations:
+    servers:
+    proxmoxhosts:
 
 # ----------------------------------------------------
 # 2. HOST DEFINITIONS (Groups of hosts)
 # These groups contain your actual servers.
-
-proxmoxhosts:
-  hosts:
-    192.168.10.11:
-    192.168.10.12:
-    192.168.10.13:
-
-linux-vms:
-  hosts:
-    minty.bruteware.cc:         # mintyadmin
-    mediabox.bruteware.cc:
-    gitrunner.bruteware.cc:
-    stratolab.bruteware.cc:
-    # mintmate.bruteware.cc:
 
 containers:
   hosts:
@@ -49,15 +27,19 @@ containers:
     startbox.bruteware.cc:
     gitbox.bruteware.cc:
 
-dns:
+workstations:
   hosts:
-    traefik-dashboard.bruteware.cc:   # dns machine
+    minty.bruteware.cc:
 
-windows-vms:
+servers:
   hosts:
-    win.bruteware.cc:
-    # reverser.bruteware.cc:
+    mediabox.bruteware.cc:
+    gitrunner.bruteware.cc:
+    stratolab.bruteware.cc:
+    traefik-dashboard.bruteware.cc:
 
-windows-server-vms:
+proxmoxhosts:
   hosts:
-    dc01.bruteware.cc:
+    192.168.10.11:
+    192.168.10.12:
+    192.168.10.13:
