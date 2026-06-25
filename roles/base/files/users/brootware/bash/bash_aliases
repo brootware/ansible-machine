@@ -62,7 +62,7 @@ alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
 # reload bash config
-alias reload="source ~/.bashrc"
+alias bashup="source ~/.bashrc"
 
 # ansible aliases
 alias avt=ansible-vault

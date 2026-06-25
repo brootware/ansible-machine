@@ -62,6 +62,58 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
+# reload zsh config
+alias zshup="source ~/.zshrc"
+
+# ansible aliases
+alias avt=ansible-vault
+alias apb=ansible-playbook
+alias agx=ansible-galaxy
+alias ant=ansible-lint
+
+# Download web page with all assets
+alias getpage='wget --no-clobber --page-requisites --html-extension --convert-links --no-host-directories'
+
+# Download file with original filename
+alias get="curl -O -L"
+
+# Get week number
+alias week='date +%V'
+
+# Stopwatch
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# IP addresses
+alias localip="sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1'"
+alias ips="sudo ifconfig -a | grep -o 'inet6\\? \\(addr:\\)\\?\\s\\?\\(\\(\\([0-9]\\+\\.\\)\\{3\\}[0-9]\\+\\)\\|[a-fA-F0-9:]\\+\\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+alias routerip="ip route | grep default | grep -E '\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'"
+alias pubip="wget -qO- https://ipinfo.io"
+
+# copy working directory
+alias cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
+
+# Pipe my public key to my clipboard.
+alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
+
+# vhosts
+alias hosts='sudo vi /etc/hosts'
+
+# untar
+alias untar='tar xvf'
+
+# Undo the last commit
+alias uncommit="git reset HEAD~1"
+
+# Open .zshrc in VSCode
+alias zshconfig="code ~/.zshrc"
+alias aliases="code ~/.aliases"
+
+# alias python to python3
+alias python=python3
+
+# List connected usb device speed
+alias usbspeed="lsusb -vvv | grep -i -B5 -A5 bcdUSB"
+
 # Package management
 if [ -f /usr/bin/apt ]; then
   alias update='sudo apt update'

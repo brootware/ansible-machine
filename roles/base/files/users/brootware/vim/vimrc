@@ -1,3 +1,12 @@
+" Mode: Normal. Saves and runs when you press comma then p.
+autocmd FileType python nnoremap <buffer> ,p :w<CR>:!clear && python3 %<CR>
+
+" Mode: Insert. Saves and runs directly while typing.
+autocmd FileType python inoremap <buffer> ,p <Esc>:w<CR>:!python3 %<CR>
+
+" Set to show line numbers
+set rnu
+
 " Disable annoying beep sound
 set vb
 
@@ -84,9 +93,13 @@ set expandtab
 " Be smart when using tabs
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+" 1 tab == 2 spaces
+set shiftwidth=2
+set tabstop=2
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
 
 " Ignore case while searching
 set ignorecase
