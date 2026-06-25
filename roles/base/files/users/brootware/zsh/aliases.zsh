@@ -106,7 +106,7 @@ alias uncommit="git reset HEAD~1"
 
 # Open .zshrc in VSCode
 alias zshconfig="code ~/.zshrc"
-alias aliases="code ~/.aliases"
+alias aliases="code ~/.aliases.zsh"
 
 # alias python to python3
 alias python=python3

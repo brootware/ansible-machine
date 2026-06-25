@@ -103,9 +103,9 @@ alias untar='tar xvf'
 # Undo the last commit
 alias uncommit="git reset HEAD~1"
 
-# Open .zshrc in VSCode
-alias zshconfig="code ~/.zshrc"
-alias aliases="code ~/.aliases"
+# Open bashrc in VSCode
+alias bashconfig="vi ~/.bashrc"
+alias aliases="vi ~/.bash_aliases"
 
 # alias python to python3
 alias python=python3
