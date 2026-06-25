@@ -1,5 +1,5 @@
 # ansible machine
 
 ```
-ansible-pull -U https://github.com/brootware/ansible-machine.git
+ansible-pull -C main -U https://github.com/brootware/ansible-machine.git
 ```
