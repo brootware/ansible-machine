@@ -13,7 +13,7 @@
 
 - name: Install brave browser package and enable 2 fingers swipe back and forth gesture.
   become: true
-  tasks:
+  block:
     - name: Install brave browser.
       ansible.builtin.package:
         state: present
