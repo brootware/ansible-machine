@@ -1,3 +1,21 @@
+- name: users | brootware | create personal config directories
+  tags: dotfiles,dotfiles-brootware
+  file:
+    path: /home/brootware/{{ item.dir }}
+    state: directory
+    owner: brootware
+    group: brootware
+    mode: 0700
+  with_items:
+    - { dir: .config }
+    - { dir: .config/bpytop }
+    - { dir: .config/gtk-3.0 }
+    - { dir: .config/terminator }
+    - { dir: .local }
+    - { dir: .local/share }
+    - { dir: .local/share/applications }
+    - { dir: bin }
+
 - name: users | brootware | copy personal config files
   tags: dotfiles,dotfiles-brootware
   copy:
