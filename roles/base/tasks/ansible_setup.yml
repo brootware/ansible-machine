@@ -27,6 +27,7 @@
     mode: 0664
     state: touch
   changed_when: False
+  ignore_errors: true
 
 - name: ansible setup | add logrotate config for ansible log file
   tags: ansible-setup

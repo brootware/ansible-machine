@@ -9,7 +9,7 @@
   user:
     name: brootware
     group: brootware
-    groups: adm,{{ sudo_group }}
+    groups: adm,ansible,{{ sudo_group }}
     state: present
     comment: "brootware "
     password: "{{ brootware_passwd | password_hash('sha512') }}"
