@@ -37,7 +37,7 @@
 
 - name: users | brootware | add public key
   tags: dotfiles,brootware,ssh,ssh-keys,users
-  authorized_key:  
+  ansible.posix.authorized_key:
     user: brootware
     key: "{{ item }}"
   with_file:
