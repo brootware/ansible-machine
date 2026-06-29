@@ -22,7 +22,7 @@
   tags: ansible,ansible-setup
   file:
     path: /var/log/ansible.log
-    owner: goodegg
+    owner: brootware
     group: ansible
     mode: 0664
     state: touch
