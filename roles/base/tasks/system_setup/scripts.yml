@@ -15,4 +15,4 @@
     owner: root
     group: root
     mode: 0755
-  when: ansible_architecture == "aarch64"
+  when: ansible_facts['ansible_architecture'] == "aarch64"
