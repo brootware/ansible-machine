@@ -7,7 +7,7 @@
       tags: always
       apt: update_cache=yes
       changed_when: false
-      when: ansible_facts['distribution'] in ["Debian", "Ubuntu"]
+      when: ansible_facts['distribution'] in ["Debian", "Linux Mint", "Ubuntu"]
 
 # run roles
 # - hosts: all
