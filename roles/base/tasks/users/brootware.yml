@@ -1,15 +1,20 @@
 - name: users | brootware | create group
   tags: groups,brootware,users
   group:
-    name: brootware
+    name: "{{ item.dir }}"
     state: present
+  with_items:
+    - { name: brootware }
+    - { name: ansible }
+    
+
 
 - name: users | brootware | create user
   tags: brootware,sudo,users
   user:
     name: brootware
     group: brootware
-    groups: adm,{{ sudo_group }}
+    groups: adm,ansible,{{ sudo_group }}
     state: present
     comment: "brootware "
     password: "{{ brootware_passwd | password_hash('sha512') }}"
