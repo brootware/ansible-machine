@@ -17,7 +17,7 @@
   tags: cron
   cron:
     name: "ansible provision"
-    user: goodegg
+    user: brootware
     hour: "{{ ansible_cron_hour | default('*') }}"
     minute: "{{ ansible_cron_minute | default('*/30') }}"
     job: "/usr/local/bin/provision > /dev/null"
@@ -26,6 +26,6 @@
   tags: cron
   cron:
     name: "ansible refresh at boot"
-    user: goodegg
+    user: brootware
     special_time: reboot
-    job: "/bin/rm -rf /home/goodegg/.ansible"
+    job: "/bin/rm -rf /home/brootware/.ansible"
