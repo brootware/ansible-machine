@@ -1,0 +1,11 @@
+- name: users | brootware | copy personal config files
+  tags: dotfiles,dotfiles-brootware
+  copy:
+    src: users/brootware/{{ item.src }}
+    dest: /home/brootware/{{ item.dest }}
+    owner: brootware
+    group: brootware
+    mode: 0600
+  with_items:
+    - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
+    - { src: 'ssh_client_config', dest: '.ssh/config' }
