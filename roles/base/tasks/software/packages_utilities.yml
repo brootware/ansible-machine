@@ -37,4 +37,4 @@
     name:
       - man-db
       - man-pages
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts['distribution'] == "Archlinux"

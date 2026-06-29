@@ -11,7 +11,7 @@
     name: cronie
     state: started
     enabled: true
-  when: ansible_distribution == "Archlinux"
+  when: ansible_facts['distribution'] == "Archlinux"
 
 - name: system setup | cron | schedule automatic ansible provisioning
   tags: cron
