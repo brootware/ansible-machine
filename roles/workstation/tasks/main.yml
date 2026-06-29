@@ -9,9 +9,14 @@
 
 
 ## desktop environments
-  # sample task for mate if needed
-  # - include_tasks: desktop_environments/mate/appearance.yml
-  #   when: mate is defined and mate == true
+  - include_tasks: desktop_environments/mate/appearance.yml
+    when: mate is defined and mate == true
+
+  - include_tasks: desktop_environments/gnome/nautilus.yml
+    when: gnome is defined and gnome == true
 
   ## system setup
   - import_tasks: system_setup/scripts.yml  
+
+  ## install software
+  - import_tasks: software/brave_browser.yml
