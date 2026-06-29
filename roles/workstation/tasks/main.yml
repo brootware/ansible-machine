@@ -9,11 +9,10 @@
 
 
 ## desktop environments
-  - include_tasks: desktop_environments/mate/appearance.yml
-    when: mate is defined and mate == true
+  # - include_tasks: desktop_environments/mate/appearance.yml
+  #   when: mate is defined and mate == true
 
   - include_tasks: desktop_environments/gnome/nautilus.yml
-    when: gnome is defined and gnome == true
 
   ## system setup
   - import_tasks: system_setup/scripts.yml  
