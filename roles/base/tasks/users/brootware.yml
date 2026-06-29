@@ -1,11 +1,11 @@
 - name: users | brootware | create group
   tags: groups,brootware,users
   group:
-    name: "{{ item.dir }}"
+    name: "{{ item.group }}"
     state: present
   with_items:
-    - { name: brootware }
-    - { name: ansible }
+    - { group: brootware }
+    - { group: ansible }
     
 
 
