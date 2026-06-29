@@ -1,8 +1,8 @@
-- name: system setup | scripts | copy cht.sh script
+- name: system setup | scripts | copy test.sh script
   tags: distro-setup
   copy:
-    src: scripts/cht.sh
-    dest: /usr/local/bin/cht.sh
+    src: scripts/test.sh
+    dest: /usr/local/bin/test.sh
     owner: root
     group: root
     mode: 0755
