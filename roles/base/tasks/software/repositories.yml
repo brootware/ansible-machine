@@ -17,7 +17,7 @@
 
 - name: system setup | repositories | add debian-backports
   tags: backports,repositories
-  apt_repository:
+  ansible.builtin.deb822_repository:
     repo: deb http://deb.debian.org/debian buster-backports main
     filename: debian-backports
   notify: apt_update
