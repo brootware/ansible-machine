@@ -1,0 +1,8 @@
+- name: Install zsh plugins
+  ansible.builtin.git:
+    repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
+    dest: "/home/brootware/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
+    clone: yes
+  with_items: 
+    - { plugin: 'zsh-autosuggestions' }
+    - { plugin: 'zsh-completions' }
