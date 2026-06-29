@@ -10,16 +10,19 @@
     dest: /etc/apt/sources.list.d/brave-browser-release.sources
     mode: '0644'
 
-- name: Install personalised ubuntu apt packages.
-  ansible.builtin.apt:
-    state: present
-    name: brave-browser
-    update_cache: true
-    cache_valid_time: 86400
 
-- name: Debian version | Replace line in brave-browser.desktop file to enable 2 fingers swipe back and forth gesture. https://gist.github.com/detherminal/1845c794ee3f3cdcc4e7eb713e9ee6fd
-  lineinfile:
-    path: /usr/share/applications/brave-browser.desktop
-    regexp: '^Exec=/usr/bin/brave-browser-stable %U$'
-    line: 'Exec=/usr/bin/brave-browser-stable %U --ozone-platform=wayland --enable-features=TouchpadOverscrollHistoryNavigation'
-  when: ansible_facts['distribution'] == 'Ubuntu'
+- name: Install brave browser package and enable 2 fingers swipe back and forth gesture.
+  become: true
+  tasks:
+    - name: Install brave browser.
+      ansible.builtin.package:
+        state: present
+        name: brave-browser
+        update_cache: true
+        cache_valid_time: 86400
+
+    - name: Debian version | Replace line in brave-browser.desktop file to enable 2 fingers swipe back and forth gesture. https://gist.github.com/detherminal/1845c794ee3f3cdcc4e7eb713e9ee6fd
+      lineinfile:
+        path: /usr/share/applications/brave-browser.desktop
+        regexp: '^Exec=/usr/bin/brave-browser-stable %U$'
+        line: 'Exec=/usr/bin/brave-browser-stable %U --ozone-platform=wayland --enable-features=TouchpadOverscrollHistoryNavigation'
