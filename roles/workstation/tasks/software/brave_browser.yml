@@ -23,4 +23,3 @@
     regexp: '^Exec=/usr/bin/brave-browser-stable %U$'
     line: 'Exec=/usr/bin/brave-browser-stable %U --ozone-platform=wayland --enable-features=TouchpadOverscrollHistoryNavigation'
   when: ansible_facts['distribution'] == 'Ubuntu'
-  ignore_errors: true
