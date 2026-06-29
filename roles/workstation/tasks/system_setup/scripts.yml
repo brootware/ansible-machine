@@ -1,0 +1,8 @@
+- name: system setup | scripts | copy cht.sh script
+  tags: distro-setup
+  copy:
+    src: scripts/cht.sh
+    dest: /usr/local/bin/cht.sh
+    owner: root
+    group: root
+    mode: 0755
