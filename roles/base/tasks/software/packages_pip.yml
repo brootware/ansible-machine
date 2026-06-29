@@ -1,5 +1,5 @@
-- name: system setup | pip packages | install bpytop
-  tags: bpytop,packages,pip,python
+- name: system setup | pipx packages | install bpytop
+  tags: bpytop,packages,pipx,python
   become_user: brootware
   community.general.pipx:
     state: present
