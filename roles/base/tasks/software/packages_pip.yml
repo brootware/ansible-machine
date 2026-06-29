@@ -4,3 +4,4 @@
   community.general.pipx:
     state: present
     name: bpytop
+  ignore_errors: true
