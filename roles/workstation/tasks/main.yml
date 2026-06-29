@@ -20,3 +20,6 @@
 
   ## install software
   - import_tasks: software/brave_browser.yml
+  
+  - import_tasks: software/snap_packages.yml
+    when: ansible_facts['distribution'] == 'Ubuntu'

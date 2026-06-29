@@ -1,0 +1,6 @@
+- name: Install personalised snap packages.
+  community.general.snap:
+    state: present
+    classic: true
+    name: "{{ snaps }}"
+  ignore_errors: true
