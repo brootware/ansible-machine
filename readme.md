@@ -1,7 +1,10 @@
-# ansible machine
+# ansible machine 💻
+
+A more complete version of personal dotfiles to automate configring personal machines.
+
+## How to use
 
 Install Zsh and OhMyZsh for Ubuntu or Debian based distros. 
-
 
 ```bash
 sudo apt install zsh curl git pipx python3-passlib -y
