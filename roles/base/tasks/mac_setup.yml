@@ -44,7 +44,7 @@
   tags: dotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
-    dest: "{{ ansible_user_dir }}/{{ item.dest }}""
+    dest: "{{ ansible_user_dir }}/{{ item.dest }}"
     owner: brootware
     group: brootware
     mode: 0600
