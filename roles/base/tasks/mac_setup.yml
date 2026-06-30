@@ -45,8 +45,8 @@
   copy:
     src: users/brootware/{{ item.src }}
     dest: "{{ ansible_user_dir }}/{{ item.dest }}"
-    owner: brootware
-    group: brootware
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
     mode: 0600
   with_items:
     - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
