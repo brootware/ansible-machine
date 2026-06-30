@@ -29,3 +29,35 @@
     - { dir: '.vim/colors' }
     - { dir: '.vim/ftplugin' }
     - { dir: '.zsh' }
+
+- name: mac setup | copy tmux config (server version)
+  tags: dotfiles,mac,tmux,users,vim,zsh
+  copy:
+    src: users/brootware/tmux/tmux.conf.server
+    dest: "{{ ansible_user_dir }}/.tmux.conf"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0600
+  when: "'server' not in group_names"
+
+- name: mac setup | copy dotfiles
+  tags: dotfiles,mac,tmux,users,vim,zsh
+  copy:
+    src: users/brootware/{{ item.src }}
+    dest: "{{ ansible_user_dir }}/{{ item.dest }}""
+    owner: brootware
+    group: brootware
+    mode: 0600
+  with_items:
+    - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
+    - { src: 'bash/bash_profile', dest: '.bash_profile' }
+    - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
+    - { src: 'bash/bash_functions', dest: '.bash/bash_functions' }
+    - { src: 'bash/bashrc', dest: '.bashrc' }
+    - { src: 'bash/profile', dest: '.profile' }
+    - { src: 'git/gitconfig', dest: '.gitconfig' }
+    - { src: 'htop/htoprc', dest: '.config/htop/htoprc' }
+    - { src: 'inputrc', dest: '.inputrc' }
+    - { src: 'mc/mc.ini', dest: '.config/mc/ini' }
+    - { src: 'vim/vimrc', dest: '.vimrc' }
+    - { src: 'zsh/zshrc', dest: '.zshrc' }
