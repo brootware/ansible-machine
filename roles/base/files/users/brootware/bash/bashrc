@@ -15,6 +15,8 @@ export EDITOR=vim
 if [ -t 0 ]; then
     if type -p "neofetch" > /dev/null; then
         neofetch
+	elif type -p "fastfetch" > /dev/null; then
+		fastfetch
     else
         echo "Warning: neofetch was called, but it's not installed."
     fi
