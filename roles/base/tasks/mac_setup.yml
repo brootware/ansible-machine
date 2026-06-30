@@ -61,3 +61,43 @@
     - { src: 'mc/mc.ini', dest: '.config/mc/ini' }
     - { src: 'vim/vimrc', dest: '.vimrc' }
     - { src: 'zsh/zshrc', dest: '.zshrc' }
+
+- name: mac setup | copy individual zsh config files
+  tags: dotfiles,mac,users,zsh
+  copy:
+    src: users/brootware/zsh/{{ item.src }}
+    dest: "{{ ansible_user_dir }}/.zsh/{{ item.src }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0600
+  with_items:
+    - { src: 'aliases.zsh' }
+    - { src: 'bindkey.zsh' }
+    - { src: 'completion.zsh' }
+    - { src: 'exports.zsh' }
+    - { src: 'functions.zsh' }
+    - { src: 'history.zsh' }
+    - { src: 'path.zsh' }
+    - { src: 'plugins.zsh' }
+    - { src: 'prompt.zsh' }
+    - { src: 'setopt.zsh' }
+    - { src: 'theming.zsh' }
+
+- name: mac setup | copy vim ftype files
+  tags: dotfiles,mac,users,vim
+  copy:
+    src: users/brootware/vim/{{ item.src }}
+    dest: "{{ ansible_user_dir }}/.vim/ftplugin/{{ item.src }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0600
+  with_items:
+    - { src: 'cmake.vim' }
+    - { src: 'cpp.vim' }
+    - { src: 'html.vim' }
+    - { src: 'python.vim' }
+    - { src: 'sql.vim' }
+    - { src: 'xml.vim' }
+
+
+
