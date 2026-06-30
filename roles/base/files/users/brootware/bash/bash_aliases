@@ -101,8 +101,8 @@ alias untar='tar xvf'
 alias uncommit="git reset HEAD~1"
 
 # Open .zshrc in vim
-alias zshconfig="vim ~/.zsh/.zshrc"
-alias aliases="vim ~/.zsh/.aliases.zsh"
+alias bashconfig="vim ~/.bash/.bashrc"
+alias aliases="vim ~/.bash/.bash_aliases"
 
 # alias python to python3
 alias python=python3
