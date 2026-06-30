@@ -18,6 +18,7 @@ tool = kdiff3
 prompt = false
 
 [alias]
+g = git
 pr = pull --rebase
 
 # View abbreviated SHA, description, and history graph of the latest 20 commits.
@@ -39,7 +40,7 @@ p = pull --recurse-submodules
 c = clone --recursive
 
 # Commit all changes.
-ca = git add . && git commit -av
+gca = git add . && git commit -av
 
 # Switch to a branch, creating it if necessary.
 go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
