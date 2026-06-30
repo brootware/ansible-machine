@@ -14,7 +14,7 @@
       - mc
       - mosh
       - ncdu
-      - neofetch
+      - "{{ neofetch_package }}"
       - net-tools
       - "{{ nfs_client_package }}"
       - nmap
