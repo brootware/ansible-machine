@@ -10,11 +10,11 @@
       when: ansible_facts['distribution'] in ["Debian", "Linux Mint", "Ubuntu"]
 
 # run roles
-# - hosts: all
-#   tags: base
-#   become: true
-#   roles:
-#     - base
+- hosts: all
+  tags: base
+  become: true
+  roles:
+    - base
 
 - hosts: workstation
   tags: workstation
