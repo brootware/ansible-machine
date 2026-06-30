@@ -18,7 +18,7 @@ tool = kdiff3
 prompt = false
 
 [alias]
-g = git
+g=git
 gpr = pull --rebase
 
 # View abbreviated SHA, description, and history graph of the latest 20 commits.
