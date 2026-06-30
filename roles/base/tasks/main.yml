@@ -20,7 +20,8 @@
   - import_tasks: software/packages_cleanup.yml
   - import_tasks: software/packages_pip.yml
   - import_tasks: software/packages_utilities.yml
-  - import_tasks: software/zsh_plugin.yml
+  - include_tasks: software/zsh_plugin.yml
+    when: ansible_facts['distribution'] in ["Darwin","Debian", "Linux Mint", "Ubuntu"]
 
   # Perform remaining tasks:
   - import_tasks: system_setup/clock.yml
