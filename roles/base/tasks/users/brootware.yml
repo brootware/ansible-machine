@@ -6,8 +6,6 @@
   with_items:
     - { group: brootware }
     - { group: ansible }
-    
-
 
 - name: users | brootware | create user
   tags: brootware,sudo,users
