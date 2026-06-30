@@ -1,2 +1,11 @@
 # Load plugins
-plugins=(git)
+plugins=(
+  history-substring-search
+  battery
+  git
+  extract
+  ssh-agent
+  gpg-agent
+  docker
+  zsh-autosuggestions
+)
