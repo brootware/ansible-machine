@@ -1,6 +1,6 @@
 # ansible machine 💻
 
-A more complete version of personal dotfiles to automate configring personal machines.
+A more complete version of personal dotfiles to automate configuring personal machines.
 
 ## How to use
 
