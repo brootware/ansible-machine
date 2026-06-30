@@ -92,9 +92,6 @@ alias pubip="wget -qO- https://ipinfo.io"
 # copy working directory
 alias cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
 
-# Pipe my public key to my clipboard.
-alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
-
 # vhosts
 alias hosts='sudo vi /etc/hosts'
 
@@ -104,9 +101,9 @@ alias untar='tar xvf'
 # Undo the last commit
 alias uncommit="git reset HEAD~1"
 
-# Open .zshrc in VSCode
-alias zshconfig="code ~/.zshrc"
-alias aliases="code ~/.aliases.zsh"
+# Open .zshrc in vim
+alias zshconfig="vim ~/.zsh/.zshrc"
+alias aliases="vim ~/.zsh/.aliases.zsh"
 
 # alias python to python3
 alias python=python3
