@@ -12,6 +12,7 @@
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
   # - import_tasks: mac_setup.yml
+  #   when: ansible_facts['distribution'] in ["Darwin"]
 
   # install software
   - import_tasks: software/repositories.yml
