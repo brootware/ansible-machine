@@ -224,7 +224,7 @@
     mode: 0644
   when: ansible_facts.distribution in ["MacOSX","Darwin"]
 
-- name: ansible setup | generate provision script from template
+- name: only dotfiles setup | generate provision script from template
   tags: ansible,ansible-setup,scripts,onlydotfiles,mac
   template:
     src: provision.sh.j2
