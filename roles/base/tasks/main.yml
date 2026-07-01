@@ -11,8 +11,8 @@
 
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
-  # - include_tasks: mac_setup.yml
-  #   when: ansible_facts['distribution'] in ["MacOSX", "Darwin"]
+  - include_tasks: mac_setup.yml
+    when: mac is defined and mac == true and ansible_facts['distribution'] in ["MacOSX", "Darwin"]
 
   # install software
   - import_tasks: software/repositories.yml
