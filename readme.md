@@ -4,7 +4,7 @@ A more complete version of personal dotfiles to automate configuring personal ma
 
 ## How to use
 
-Install Zsh and OhMyZsh for Ubuntu or Debian based distros. 
+Install Zsh and OhMyZsh for Ubuntu or Debian based distros.
 
 ```bash
 sudo apt install zsh curl git pipx python3-passlib -y
@@ -30,13 +30,15 @@ Define your hostname under [hosts.yml](hosts.yml). Together with the variables
 ```yml
 workstation:
   hosts:
-    linuxmint:
-      cinnamon: true
+    minty.bruteware.cc: {}
     buntu:
       gnome: true
-    ubuntu26laptop:
+      ansible_become_method: su
+    IdeaPad-Flex-5-14ALC05:
       gnome: true
       ansible_become_method: su
+    macbookm2:
+      mac: true
 ```
 
 and run
@@ -51,7 +53,7 @@ OR only run the base role on localhost
 ansible-pull -U https://github.com/brootware/ansible-machine.git -i "localhost," -K -e "brootware_passwd=$(read -sp 'Enter password: ' p && echo $p)"
 ```
 
-For Macbook setup only without creating extra users
+For Macbook setup only without creating extra users. Ensure mac is defined in [hosts.yml](hosts.yml).
 
 ```bash
 ansible-pull -U https://github.com/brootware/ansible-machine.git -K --tags "mac" -vv
