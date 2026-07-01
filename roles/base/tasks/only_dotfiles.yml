@@ -1,4 +1,4 @@
-- name: mac setup | create .ssh directory
+- name: only dotfiles setup | create .ssh directory
   tags: dotfiles,mac,ssh,users
   file:
     path: "{{ item.dir }}"
@@ -11,7 +11,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | create config directories
+- name: only dotfiles setup | create config directories
   tags: dotfiles,mac,tmux,users,vim,zsh
   file:
     path: "{{ target_user_home }}/{{ item.dir }}"
@@ -36,7 +36,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | copy tmux config (server version)
+- name: only dotfiles setup | copy tmux config (server version)
   tags: dotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/tmux/tmux.conf.server
@@ -48,7 +48,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | clone tmux-completion plugin repository
+- name: only dotfiles setup | clone tmux-completion plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/srsudar/tmux-completion.git
@@ -58,7 +58,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | clone tmux-continuum plugin repository
+- name: only dotfiles setup | clone tmux-continuum plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-continuum
@@ -68,7 +68,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | clone tmux-resurrect plugin repository
+- name: only dotfiles setup | clone tmux-resurrect plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-resurrect
@@ -78,7 +78,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | copy dotfiles
+- name: only dotfiles setup | copy dotfiles
   tags: dotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
@@ -102,7 +102,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | copy individual zsh config files
+- name: only dotfiles setup | copy individual zsh config files
   tags: dotfiles,mac,users,zsh
   copy:
     src: users/brootware/zsh/{{ item.src }}
@@ -125,7 +125,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | copy vim ftype files
+- name: only dotfiles setup | copy vim ftype files
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
@@ -143,7 +143,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | copy vim color files
+- name: only dotfiles setup | copy vim color files
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
@@ -160,7 +160,7 @@
   become: true
   become_user: "{{ target_username }}"
 
-- name: mac setup | install pathogen
+- name: only dotfiles setup | install pathogen
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
@@ -174,7 +174,7 @@
   become_user: "{{ target_username }}"
 
 
-- name: mac setup | checkout git repositories for vim plugins
+- name: only dotfiles setup | checkout git repositories for vim plugins
   tags: git,mac,users,vim
   become: true
   git:

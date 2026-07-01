@@ -13,9 +13,9 @@
   - import_tasks: ansible_setup.yml
 
   # Mac OS exclusive
-  - include_tasks: mac_setup.yml
+  - include_tasks: only_dotfiles.yml
     tags: mac,onlydots
-    when: mac is defined and mac == true and ansible_facts.distribution in ["MacOSX", "Darwin"]
+    when: mac is defined and mac == true and ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
 
   # install software
   - include_tasks: software/zsh_plugin.yml
