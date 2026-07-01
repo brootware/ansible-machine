@@ -4,7 +4,6 @@ current_shell=$(basename "$SHELL")
 if [ "$current_shell" = "bash" ]; then
     # If the shell is Bash, load .bashrc if it exists
     [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
-    
 elif [ "$current_shell" = "zsh" ]; then
     # If the shell is Zsh, load .zshrc if it exists
     [ -f "$HOME/.zshrc" ] && . "$HOME/.zshrc"
