@@ -193,7 +193,7 @@
   notify: update_vim_bundle_perms
   become_user: "{{ target_username }}"
 
-- name: only dotfiles setup | create ansible log file
+- name: only dotfiles ansible setup | create ansible log file
   tags: ansible,ansible-setup,onlydotfiles,mac
   file:
     path: /var/log/ansible.log
@@ -204,7 +204,7 @@
   changed_when: False
   ignore_errors: true
 
-- name: only dotfiles setup | for Linux | add logrotate config for ansible log file
+- name: only dotfiles ansible setup | for Linux | add logrotate config for ansible log file
   tags: onlydotfiles
   copy:
     src: files/ansible_setup/logrotate
@@ -214,7 +214,7 @@
     mode: 0644
   when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
-- name: only dotfiles setup | for Mac | add newsyslog config for ansible log file
+- name: only dotfiles ansible setup | for Mac | add newsyslog config for ansible log file
   tags: onlydotfiles,mac
   copy:
     src: files/ansible_setup/logrotate
@@ -224,7 +224,7 @@
     mode: 0644
   when: ansible_facts.distribution in ["MacOSX","Darwin"]
 
-- name: only dotfiles setup | generate provision script from template
+- name: only dotfiles ansible setup | generate provision script from template
   tags: ansible,ansible-setup,scripts,onlydotfiles,mac
   template:
     src: provision.sh.j2
