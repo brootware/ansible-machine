@@ -67,15 +67,18 @@ run_ansible_full() {
         # You can comment this out if you want it to proceed anyway.
         exit 1
     fi
-    
-    echo ">>> Copying local hosts.yml to the Ansible pull directory..."
-    mkdir -p "$ANSIBLE_PULL_DIR"
-    cp hosts.yml "$ANSIBLE_PULL_DIR/hosts.yml"
 
     install_galaxy_collections
 
+    # Let ansible-pull create the directory and clone the repo if it doesn't exist.
+    # If it exists, it will be updated.
+    if [ ! -d "$ANSIBLE_PULL_DIR/.git" ]; then
+        echo ">>> Cloning repository for the first time..."
+        ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" --purge -i hosts.yml
+    fi
+
     # The -K flag will prompt for the 'su' password set in the previous step.
-    ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" -i hosts.yml -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
+    ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" -i "$PWD/hosts.yml" -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
