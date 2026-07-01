@@ -1,5 +1,5 @@
 - name: system setup | Install zsh plugins
-  tags: dotfiles,mac,zsh
+  tags: onlydotfiles,mac,zsh
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
     dest: "{{ target_user_home }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"

@@ -1,5 +1,5 @@
 - name: only dotfiles setup | create .ssh directory
-  tags: dotfiles,mac,ssh,users
+  tags: onlydotfiles,mac,ssh,users
   file:
     path: "{{ item.dir }}"
     state: directory
@@ -12,7 +12,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | create config directories
-  tags: dotfiles,mac,tmux,users,vim,zsh
+  tags: onlydotfiles,mac,tmux,users,vim,zsh
   file:
     path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
@@ -37,7 +37,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy tmux config (server version)
-  tags: dotfiles,mac,tmux,users,vim,zsh
+  tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/tmux/tmux.conf.server
     dest: "{{ target_user_home }}/.tmux.conf"
@@ -49,7 +49,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-completion plugin repository
-  tags: dotfiles,mac,users,tmux
+  tags: onlydotfiles,mac,users,tmux
   git:
     repo: https://github.com/srsudar/tmux-completion.git
     dest: "{{ target_user_home }}/.tmux/plugins/completion"
@@ -59,7 +59,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-continuum plugin repository
-  tags: dotfiles,mac,users,tmux
+  tags: onlydotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-continuum
     dest: "{{ target_user_home }}/.tmux/plugins/continuum"
@@ -69,7 +69,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-resurrect plugin repository
-  tags: dotfiles,mac,users,tmux
+  tags: onlydotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-resurrect
     dest: "{{ target_user_home }}/.tmux/plugins/resurrect"
@@ -79,7 +79,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy dotfiles
-  tags: dotfiles,mac,tmux,users,vim,zsh
+  tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
     dest: "{{ target_user_home }}/{{ item.dest }}"
@@ -103,7 +103,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy individual zsh config files
-  tags: dotfiles,mac,users,zsh
+  tags: onlydotfiles,mac,users,zsh
   copy:
     src: users/brootware/zsh/{{ item.src }}
     dest: "{{ target_user_home }}/.zsh/{{ item.src }}"
@@ -126,7 +126,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy vim ftype files
-  tags: dotfiles,mac,users,vim
+  tags: onlydotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/ftplugin/{{ item.src }}"
@@ -144,7 +144,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy vim color files
-  tags: dotfiles,mac,users,vim
+  tags: onlydotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/colors/{{ item.src }}"
@@ -161,7 +161,7 @@
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | install pathogen
-  tags: dotfiles,mac,users,vim
+  tags: onlydotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ item.dest }}"
@@ -175,7 +175,7 @@
 
 
 - name: only dotfiles setup | checkout git repositories for vim plugins
-  tags: dotfiles,git,mac,users,vim
+  tags: onlydotfiles,git,mac,users,vim
   become: true
   git:
     repo: "{{ item.repo }}"
