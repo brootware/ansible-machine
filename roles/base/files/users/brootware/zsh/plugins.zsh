@@ -10,4 +10,5 @@ plugins=(
   common-aliases
   docker
   zsh-autosuggestions
+  zsh-completions
 )
