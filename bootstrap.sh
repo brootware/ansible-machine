@@ -88,6 +88,9 @@ run_ansible_mac() {
 run_ansible_dotfiles() {
     install_galaxy_collections
     echo ">>> Running Ansible for dotfiles setup..."
+    echo ">>> Setting root password (required for 'su' become method)..."
+    echo "Please enter a new password for the root user."
+    sudo passwd root
     read -rp "Enter target username: " target_username
     read -rp "Enter target group name (default: ${target_username}): " target_group
     target_group=${target_group:-$target_username}
