@@ -175,7 +175,7 @@
 
 
 - name: only dotfiles setup | checkout git repositories for vim plugins
-  tags: git,mac,users,vim
+  tags: dotfiles,git,mac,users,vim
   become: true
   git:
     repo: "{{ item.repo }}"

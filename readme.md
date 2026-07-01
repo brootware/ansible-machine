@@ -62,5 +62,5 @@ ansible-pull -U https://github.com/brootware/ansible-machine.git -K --tags "mac"
 You can only choose to install dotfiles using
 
 ```bash
-ansible-pull -U https://github.com/brootware/ansible-machine.git -K --tags "onlydots" -e "target_username=<namehere> target_user_home=<home> target_group=<groupname>"
+ansible-pull -U https://github.com/brootware/ansible-machine.git -K --tags "dotfiles" -e "target_username=<namehere> target_user_home=<home> target_group=<groupname>"
 ```
