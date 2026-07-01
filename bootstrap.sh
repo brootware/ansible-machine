@@ -44,7 +44,7 @@ install_deps_debian() {
 
     pipx inject ansible passlib
 
-    echo ">>> Setting root password (required for 'su' become method)..."
+    echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
     echo "Please enter a new password for the root user."
     sudo passwd root
 }
@@ -95,7 +95,7 @@ run_ansible_dotfiles() {
     install_galaxy_collections
     verify_host_in_inventory
     echo ">>> Running Ansible for dotfiles setup..."
-    echo ">>> Setting root password (required for 'su' BECOME PASS method)..."
+    echo ">>> Setting root password (required for 'su' method BECOME password prompt )..."
     echo "Please enter a new password for the root user."
     sudo passwd root
     read -rp "Enter target username: " target_username
