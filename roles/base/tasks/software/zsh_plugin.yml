@@ -4,8 +4,6 @@
     repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
     dest: "{{ target_user_home }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
     clone: yes
-    owner: "{{ target_username }}"
-    group: "{{ target_group }}"
   with_items: 
     - { plugin: 'zsh-autosuggestions' }
     - { plugin: 'zsh-completions' }
