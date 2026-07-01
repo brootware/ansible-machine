@@ -41,6 +41,12 @@ workstation:
       mac: true
 ```
 
+Install ansible galaxy collections
+
+```bash
+ansible-galaxy collection install ansible.posix community.general
+```
+
 and run. For BECOME password: supply the root password you've previously set
 
 ```bash

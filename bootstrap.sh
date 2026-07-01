@@ -54,10 +54,16 @@ install_deps_debian() {
     sudo passwd root
 }
 
+install_galaxy_collections() {
+    echo ">>> Installing Ansible Galaxy collections..."
+    ansible-galaxy collection install ansible.posix community.general
+}
+
 run_ansible_full() {
     echo ">>> Running full Ansible playbook..."
 
     # Ensure the current hostname is in hosts.yml for the playbook to find it.
+    # This also implicitly checks that the script is run from the correct directory.
     if [ ! -f "hosts.yml" ] || ! grep -q "$(hostname)" hosts.yml; then
         echo "WARNING: '$(hostname)' not found in hosts.yml. The playbook might not run as expected."
         echo "Please create or update hosts.yml and add this host before running."
@@ -66,17 +72,21 @@ run_ansible_full() {
         exit 1
     fi
 
+    install_galaxy_collections
+
     # The -K flag will prompt for the 'su' password set in the previous step.
     ansible-pull -U "$ANSIBLE_REPO" -i hosts.yml -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
     echo ">>> Running Ansible for macOS setup..."
+    install_galaxy_collections
     # The -K flag will prompt for the sudo password.
     ansible-pull -U "$ANSIBLE_REPO" -i hosts.yml -K --tags "mac" -vv
 }
 
 run_ansible_dotfiles() {
+    install_galaxy_collections
     echo ">>> Running Ansible for dotfiles setup..."
     read -rp "Enter target username: " target_username
     read -rp "Enter target group name (default: ${target_username}): " target_group
