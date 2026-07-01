@@ -54,5 +54,5 @@ ansible-pull -U https://github.com/brootware/ansible-machine.git -i "localhost,"
 For Macbook setup only without creating extra users
 
 ```bash
-ansible-pull -U https://github.com/brootware/ansible-machine.git -i "localhost," -K --tags "mac" --extra-vars "mac=true"
+ansible-pull -U https://github.com/brootware/ansible-machine.git -K --tags "mac" --extra-vars "mac=true"
 ```
