@@ -18,46 +18,8 @@
     name: acl
   when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
-- name: ansible setup | create ansible log file
-  tags: ansible,ansible-setup,onlydotfiles,mac
-  file:
-    path: /var/log/ansible.log
-    owner: "{{ target_username }}"
-    group: "{{ target_group }}"
-    mode: 0664
-    state: touch
-  changed_when: False
-  ignore_errors: true
-
-- name: ansible setup | add logrotate config for ansible log file
-  tags: ansible-setup
-  copy:
-    src: files/ansible_setup/logrotate
-    dest: /etc/logrotate.d/ansible
-    owner: root
-    group: root
-    mode: 0644
-
-- name: ansible setup | add newsyslog config for ansible log file
-  tags: ansible-setup,onlydotfiles,mac
-  copy:
-    src: files/ansible_setup/logrotate
-    dest: /etc/newsyslog.d/ansible
-    owner: root
-    group: root
-    mode: 0644
-
 - name: ansible setup | remove default ansible directory (/etc/ansible) from host
   tags: ansible,ansible-setup,onlydotfiles,mac
   file:
     path: /etc/ansible
     state: absent
-
-- name: ansible setup | generate provision script from template
-  tags: ansible,ansible-setup,scripts,onlydotfiles,mac
-  template:
-    src: provision.sh.j2
-    dest: /usr/local/bin/provision
-    owner: root
-    group: root
-    mode: 0755

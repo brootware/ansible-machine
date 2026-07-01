@@ -11,8 +11,6 @@
 
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
-    tags: mac,onlydotfiles
-    # when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
   # Only dot files
   - include_tasks: only_dotfiles.yml
     tags: mac,onlydotfiles
