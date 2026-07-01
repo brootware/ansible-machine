@@ -54,16 +54,14 @@ install_galaxy_collections() {
     ansible-galaxy collection install ansible.posix community.general
 }
 
-run_ansible_full() {
-    echo ">>> Running full Ansible playbook..."
-
+verify_host_in_inventory() {
     echo ">>> Cloning/updating repository to check for hostname..."
     if [ -d "$REPO_DIR" ]; then
         (cd "$REPO_DIR" && git pull)
     else
         git clone "$ANSIBLE_REPO" "$REPO_DIR"
     fi
-
+    
     echo ">>> Verifying hostname exists in inventory..."
     if ! grep -q -E "^\s+($(hostname)|$(hostname -f)):" "$REPO_DIR/hosts.yml"; then
         echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" >&2
@@ -72,10 +70,15 @@ run_ansible_full() {
         echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" >&2
         exit 1
     fi
+    echo ">>> Host '$(hostname)' found in inventory."
+}
 
+run_ansible_full() {
+    echo ">>> Running full Ansible playbook..."
+    verify_host_in_inventory
     install_galaxy_collections
 
-    echo ">>> Host found. Running ansible-pull..."
+    echo ">>> Running ansible-pull..."
     # The -U flag handles both cloning for the first time and updating on subsequent runs.
     ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
@@ -83,14 +86,16 @@ run_ansible_full() {
 run_ansible_mac() {
     echo ">>> Running Ansible for macOS setup..."
     install_galaxy_collections
+    verify_host_in_inventory
     # The -K flag will prompt for the sudo password.
     ansible-pull -U "$ANSIBLE_REPO" -K --tags "mac" -vv
 }
 
 run_ansible_dotfiles() {
     install_galaxy_collections
+    verify_host_in_inventory
     echo ">>> Running Ansible for dotfiles setup..."
-    echo ">>> Setting root password (required for 'su' become method)..."
+    echo ">>> Setting root password (required for 'su' BECOME PASS method)..."
     echo "Please enter a new password for the root user."
     sudo passwd root
     read -rp "Enter target username: " target_username
