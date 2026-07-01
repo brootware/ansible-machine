@@ -79,11 +79,8 @@ run_ansible_full() {
     if [ ! -d "$ANSIBLE_PULL_DIR/.git" ]; then
         echo ">>> Cloning repository for the first time..."
         # We use the local inventory for the initial clone as well.
-        ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" --purge -i "$LOCAL_INVENTORY_FILE"
+        ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" --purge -i "$LOCAL_INVENTORY_FILE" -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
     fi
-
-    # The -K flag will prompt for the 'su' password set in the previous step.
-    ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" -i "$LOCAL_INVENTORY_FILE" -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
