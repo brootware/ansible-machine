@@ -14,10 +14,10 @@
 
   # Only dot files
   - include_tasks: only_dotfiles.yml
-    tags: mac,dotfiles
+    tags: mac,onlydotfiles
     when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
   - include_tasks: software/zsh_plugin.yml
-    tags: mac,dotfiles
+    tags: mac,onlydotfiles
     when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
 
   # install software
