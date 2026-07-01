@@ -9,14 +9,14 @@
 
 - name: update_tmux_plugin_perms
   file:
-    path: /home/brootware/.tmux/plugins
-    owner: brootware
-    group: brootware
+    path: "{{ target_user_home }}/.tmux/plugins"
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     recurse: true
 
 - name: update_vim_bundle_perms
   file:
-    path: /home/brootware/.vim/bundle
-    owner: brootware
-    group: brootware
+    path: "{{ target_user_home }}/.vim/bundle"
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     recurse: true
