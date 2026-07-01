@@ -14,12 +14,12 @@
 
   # Mac OS exclusive
   - include_tasks: mac_setup.yml
-    tags: mac
+    tags: mac,onlydots
     when: mac is defined and mac == true and ansible_facts.distribution in ["MacOSX", "Darwin"]
 
   # install software
   - include_tasks: software/zsh_plugin.yml
-    tags: mac
+    tags: mac,onlydots
     when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
 
   - import_tasks: software/repositories.yml
