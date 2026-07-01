@@ -6,7 +6,6 @@ set -e
 # --- Configuration ---
 ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"
 REPO_DIR="/tmp/ansible-machine"
-ANSIBLE_PULL_DIR="$HOME/.ansible/pull/$(basename "$ANSIBLE_REPO" .git)"
 
 # --- Helper Functions ---
 
@@ -58,29 +57,27 @@ install_galaxy_collections() {
 run_ansible_full() {
     echo ">>> Running full Ansible playbook..."
 
-    # Ensure the current hostname is in hosts.yml for the playbook to find it.
-    # This also implicitly checks that the script is run from the correct directory.
-    if [ ! -f "hosts.yml" ] || ! grep -q "$(hostname)" hosts.yml; then
-        echo "[ERROR] Host '$(hostname)' not found in local hosts.yml." >&2
-        echo "Please add this host to your local hosts.yml file before running." >&2
-        # Exit to prevent running with incorrect inventory.
+    echo ">>> Cloning/updating repository to check for hostname..."
+    if [ -d "$REPO_DIR" ]; then
+        (cd "$REPO_DIR" && git pull)
+    else
+        git clone "$ANSIBLE_REPO" "$REPO_DIR"
+    fi
+
+    echo ">>> Verifying hostname exists in inventory..."
+    if ! grep -q -E "^\s+($(hostname)|$(hostname -f)):" "$REPO_DIR/hosts.yml"; then
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" >&2
+        echo "ERROR: Host '$(hostname)' not found in hosts.yml." >&2
+        echo "Please add this host to '$REPO_DIR/hosts.yml' and commit the change to your repository before proceeding." >&2
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" >&2
         exit 1
     fi
 
     install_galaxy_collections
 
-    # Define the absolute path to the local inventory file.
-    # This ensures ansible-pull uses your local file, not the one from the repo.
-    LOCAL_INVENTORY_FILE="$PWD/hosts.yml"
-    echo ">>> Using local inventory file: ${LOCAL_INVENTORY_FILE}"
-
-    # Let ansible-pull create the directory and clone the repo if it doesn't exist.
-    # If it exists, it will be updated.
-    if [ ! -d "$ANSIBLE_PULL_DIR/.git" ]; then
-        echo ">>> Cloning repository for the first time..."
-        # We use the local inventory for the initial clone as well.
-        ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" --purge -i "$LOCAL_INVENTORY_FILE" -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
-    fi
+    echo ">>> Host found. Running ansible-pull..."
+    # The -U flag handles both cloning for the first time and updating on subsequent runs.
+    ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
