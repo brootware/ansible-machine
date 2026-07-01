@@ -11,17 +11,21 @@
 
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
+
+  # Mac OS exclusive
   - include_tasks: mac_setup.yml
     when: mac is defined and mac == true and ansible_facts.distribution in ["MacOSX", "Darwin"]
 
   # install software
+  - include_tasks: software/zsh_plugin.yml
+    when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
+
   - import_tasks: software/repositories.yml
   - import_tasks: software/packages_development.yml
   - import_tasks: software/packages_cleanup.yml
   - import_tasks: software/packages_pip.yml
   - import_tasks: software/packages_utilities.yml
-  - include_tasks: software/zsh_plugin.yml
-    when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
+  
 
   # Perform remaining tasks:
   - import_tasks: system_setup/clock.yml
