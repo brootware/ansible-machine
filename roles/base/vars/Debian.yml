@@ -19,3 +19,5 @@ sftp_path: /usr/lib/openssh/sftp-server
 sudo_group: sudo
 vim_package: vim-nox
 neofetch_package: neofetch
+target_username: brootware
+target_user_home: /home/brootware

@@ -3,19 +3,21 @@
   file:
     path: "{{ item.dir }}"
     state: directory
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0700
   with_items:
-    - { dir: '{{ ansible_facts.user_dir }}/.ssh' }
+    - { dir: '{{ target_user_home }}/.ssh' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | create config directories
   tags: dotfiles,mac,tmux,users,vim,zsh
   file:
-    path: "{{ ansible_facts.user_dir }}/{{ item.dir }}"
+    path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0700
   with_items:
     - { dir: '.bash' }
@@ -31,48 +33,58 @@
     - { dir: '.vim/colors' }
     - { dir: '.vim/ftplugin' }
     - { dir: '.zsh' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | copy tmux config (server version)
   tags: dotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/tmux/tmux.conf.server
-    dest: "{{ ansible_facts.user_dir }}/.tmux.conf"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    dest: "{{ target_user_home }}/.tmux.conf"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0600
   when: "'server' not in group_names"
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | clone tmux-completion plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/srsudar/tmux-completion.git
-    dest: "{{ ansible_facts.user_dir }}/.tmux/plugins/completion"
+    dest: "{{ target_user_home }}/.tmux/plugins/completion"
     force: yes
   notify: update_tmux_plugin_perms
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | clone tmux-continuum plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-continuum
-    dest: "{{ ansible_facts.user_dir }}/.tmux/plugins/continuum"
+    dest: "{{ target_user_home }}/.tmux/plugins/continuum"
     force: yes
   notify: update_tmux_plugin_perms
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | clone tmux-resurrect plugin repository
   tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-resurrect
-    dest: "{{ ansible_facts.user_dir }}/.tmux/plugins/resurrect"
+    dest: "{{ target_user_home }}/.tmux/plugins/resurrect"
     force: yes
   notify: update_tmux_plugin_perms
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | copy dotfiles
   tags: dotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
-    dest: "{{ ansible_facts.user_dir }}/{{ item.dest }}"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    dest: "{{ target_user_home }}/{{ item.dest }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0600
   with_items:
     - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
@@ -87,14 +99,16 @@
     - { src: 'mc/mc.ini', dest: '.config/mc/ini' }
     - { src: 'vim/vimrc', dest: '.vimrc' }
     - { src: 'zsh/zshrc', dest: '.zshrc' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | copy individual zsh config files
   tags: dotfiles,mac,users,zsh
   copy:
     src: users/brootware/zsh/{{ item.src }}
-    dest: "{{ ansible_facts.user_dir }}/.zsh/{{ item.src }}"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    dest: "{{ target_user_home }}/.zsh/{{ item.src }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0600
   with_items:
     - { src: 'aliases.zsh' }
@@ -108,14 +122,16 @@
     - { src: 'prompt.zsh' }
     - { src: 'setopt.zsh' }
     - { src: 'theming.zsh' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | copy vim ftype files
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
-    dest: "{{ ansible_facts.user_dir }}/.vim/ftplugin/{{ item.src }}"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    dest: "{{ target_user_home }}/.vim/ftplugin/{{ item.src }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0600
   with_items:
     - { src: 'cmake.vim' }
@@ -124,14 +140,16 @@
     - { src: 'python.vim' }
     - { src: 'sql.vim' }
     - { src: 'xml.vim' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | copy vim color files
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
-    dest: "{{ ansible_facts.user_dir }}/.vim/colors/{{ item.src }}"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    dest: "{{ target_user_home }}/.vim/colors/{{ item.src }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0600
   with_items:
     - { src: 'bubblegum-256-dark.vim' }
@@ -139,17 +157,21 @@
     - { src: 'jellybeans.vim' }
     - { src: 'xoria256.vim' }
     - { src: 'zenburn.vim' }
+  become: true
+  become_user: "{{ target_username }}"
 
 - name: mac setup | install pathogen
   tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ item.dest }}"
-    owner: "{{ ansible_facts.user_id }}"
-    group: "{{ ansible_facts.user_id }}"
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
     mode: 0700
   with_items:
-    - { src: 'pathogen.vim', dest: '{{ ansible_facts.user_dir }}/.vim/autoload/pathogen.vim' }
+    - { src: 'pathogen.vim', dest: '{{ target_user_home }}/.vim/autoload/pathogen.vim' }
+  become: true
+  become_user: "{{ target_username }}"
 
 
 - name: mac setup | checkout git repositories for vim plugins
@@ -160,12 +182,13 @@
     dest: "{{ item.dest }}"
     force: yes
   with_items:
-    - { repo: 'https://github.com/ctrlpvim/ctrlp.vim.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/ctrlp.vim' }
-    - { repo: 'https://github.com/davidhalter/jedi-vim.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/jedi-vim' }
-    - { repo: 'https://github.com/pearofducks/ansible-vim', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/ansible-vim' }
-    - { repo: 'https://github.com/rhysd/vim-grammarous.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/vim-grammarous' }
-    - { repo: 'https://github.com/ron89/thesaurus_query.vim', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/thesaurus_query' }
-    - { repo: 'https://github.com/scrooloose/nerdtree.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/nerdtree' }
-    - { repo: 'https://github.com/tpope/vim-obsession.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/vim-obsession' }
-    - { repo: 'https://github.com/vim-syntastic/syntastic.git', dest: '{{ ansible_facts.user_dir }}/.vim/bundle/syntastic' }
+    - { repo: 'https://github.com/ctrlpvim/ctrlp.vim.git', dest: '{{ target_user_home }}/.vim/bundle/ctrlp.vim' }
+    - { repo: 'https://github.com/davidhalter/jedi-vim.git', dest: '{{ target_user_home }}/.vim/bundle/jedi-vim' }
+    - { repo: 'https://github.com/pearofducks/ansible-vim', dest: '{{ target_user_home }}/.vim/bundle/ansible-vim' }
+    - { repo: 'https://github.com/rhysd/vim-grammarous.git', dest: '{{ target_user_home }}/.vim/bundle/vim-grammarous' }
+    - { repo: 'https://github.com/ron89/thesaurus_query.vim', dest: '{{ target_user_home }}/.vim/bundle/thesaurus_query' }
+    - { repo: 'https://github.com/scrooloose/nerdtree.git', dest: '{{ target_user_home }}/.vim/bundle/nerdtree' }
+    - { repo: 'https://github.com/tpope/vim-obsession.git', dest: '{{ target_user_home }}/.vim/bundle/vim-obsession' }
+    - { repo: 'https://github.com/vim-syntastic/syntastic.git', dest: '{{ target_user_home }}/.vim/bundle/syntastic' }
   notify: update_vim_bundle_perms
+  become_user: "{{ target_username }}"

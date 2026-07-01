@@ -2,8 +2,12 @@
   tags: dotfiles,mac,zsh
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
-    dest: "{{ ansible_facts.user_dir }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
+    dest: "{{ target_user_home }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
     clone: yes
+    owner: "{{ target_username }}"
+    group: "{{ target_username }}"
   with_items: 
     - { plugin: 'zsh-autosuggestions' }
     - { plugin: 'zsh-completions' }
+  become: true
+  become_user: "{{ target_username }}"
