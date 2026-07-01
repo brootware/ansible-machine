@@ -8,4 +8,4 @@
       - exim4-base
       - exim4-config
       - nano
-  when: ansible_facts['distribution'] in ["Debian", "Linux Mint", "Ubuntu"]
+  when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]

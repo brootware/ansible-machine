@@ -4,7 +4,7 @@
       dest: /etc/pacman.conf
       regexp: "^#?IgnorePkg"
       line: "IgnorePkg   = ansible linux linux-headers linux-lts linux-lts-headers"
-  when: ansible_facts['distribution'] == "Archlinux"
+  when: ansible_facts.distribution == "Archlinux"
 
 - name: system setup | repositories | add sources.list for debian hosts
   tags: non-free,repositories
@@ -13,7 +13,7 @@
     dest: /etc/apt/sources.list
     backup: yes
   notify: apt_update
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts.distribution == "Debian"
 
 - name: system setup | repositories | add debian-backports
   tags: backports,repositories
@@ -21,7 +21,7 @@
     repo: deb http://deb.debian.org/debian buster-backports main
     filename: debian-backports
   notify: apt_update
-  when: ansible_facts['distribution'] == "Debian"
+  when: ansible_facts.distribution == "Debian"
 
 - name: system setup | repositories | install package management tools (debian-based)
   tags: packages,system,settings
@@ -30,4 +30,4 @@
       - aptitude
       - software-properties-common
     state: latest
-  when: ansible_facts['distribution'] in ["Debian", "Linux Mint", "Ubuntu"]
+  when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]

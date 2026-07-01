@@ -1,6 +1,6 @@
 ---
 # Load distro-specific variables
-- include_vars: "{{ ansible_facts['distribution'] }}.yml"
+- include_vars: "{{ ansible_facts.distribution }}.yml"
   tags: always
 
 - block:
@@ -24,4 +24,4 @@
   - import_tasks: software/brave_browser.yml
   
   - import_tasks: software/snap_packages.yml
-    when: ansible_facts['distribution'] == 'Ubuntu'
+    when: ansible_facts.distribution == 'Ubuntu'
