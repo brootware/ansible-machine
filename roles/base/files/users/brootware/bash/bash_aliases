@@ -102,7 +102,7 @@ alias uncommit="git reset HEAD~1"
 
 # Open .zshrc in vim
 alias bashconfig="vim ~/.bashrc"
-alias aliases="vim ~/.bash/.bash_aliases"
+alias shorcuts="vim ~/.bash/bash_aliases"
 
 # alias python to python3
 alias python=python3
