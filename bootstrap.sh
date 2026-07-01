@@ -6,6 +6,7 @@ set -e
 # --- Configuration ---
 ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"
 REPO_DIR="/tmp/ansible-machine"
+ANSIBLE_PULL_DIR="$HOME/.ansible/pull/$(basename "$ANSIBLE_REPO" .git)"
 
 # --- Helper Functions ---
 
@@ -71,18 +72,22 @@ run_ansible_full() {
         # You can comment this out if you want it to proceed anyway.
         exit 1
     fi
+    
+    echo ">>> Copying local hosts.yml to the Ansible pull directory..."
+    mkdir -p "$ANSIBLE_PULL_DIR"
+    cp hosts.yml "$ANSIBLE_PULL_DIR/hosts.yml"
 
     install_galaxy_collections
 
     # The -K flag will prompt for the 'su' password set in the previous step.
-    ansible-pull -U "$ANSIBLE_REPO" -i hosts.yml -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
+    ansible-pull -U "$ANSIBLE_REPO" -d "$ANSIBLE_PULL_DIR" -i hosts.yml -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
     echo ">>> Running Ansible for macOS setup..."
     install_galaxy_collections
     # The -K flag will prompt for the sudo password.
-    ansible-pull -U "$ANSIBLE_REPO" -i hosts.yml -K --tags "mac" -vv
+    ansible-pull -U "$ANSIBLE_REPO" -K --tags "mac" -vv
 }
 
 run_ansible_dotfiles() {
@@ -98,7 +103,7 @@ run_ansible_dotfiles() {
     target_user_home=${target_user_home:-/home/$target_username}
 
     # The -K flag will prompt for the sudo password.
-    ansible-pull -U "$ANSIBLE_REPO" -i hosts.yml -K --tags "onlydotfiles" \
+    ansible-pull -U "$ANSIBLE_REPO" -K --tags "onlydotfiles" \
         -e "target_username=${target_username}" \
         -e "target_group=${target_group}" \
         -e "target_user_home=${target_user_home}"
