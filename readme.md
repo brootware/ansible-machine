@@ -34,7 +34,7 @@ This will install the dotfiles from this repo to your machine.
 
 ```bash
 curl https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main/bootstrap.sh > bootstrap.sh && chmod +x bootstrap.sh
-./bootstrap.sh
+./bootstrap.sh -h
 ```
 
 ## Step by step install
