@@ -26,3 +26,25 @@
     owner: root
     group: root
     mode: 0440
+
+- name: users | brootware | create .ssh directory
+  tags: dotfiles,brootware,ssh,users
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
+    mode: 0700
+  with_items:
+    - { dir: '{{ target_user_home }}/.ssh' }
+  become: true
+  become_user: "{{ target_username }}"
+
+- name: users | brootware | add public key
+  tags: dotfiles,brootware,ssh,ssh-keys,users
+  authorized_key:
+    user: brootware
+    key: "{{ item }}"
+  with_file:
+    - users/brootware/ssh/brootware_id_ed25519.pub
+    - users/brootware/ssh/brootware_id_rsa.pub
