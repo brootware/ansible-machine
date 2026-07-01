@@ -51,7 +51,7 @@
   notify: update_tmux_plugin_perms
 
 - name: mac setup | clone tmux-continuum plugin repository
-  tags: dotfiles, ,users,tmux
+  tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-continuum
     dest: "{{ ansible_facts.user_dir }}/.tmux/plugins/continuum"
@@ -59,7 +59,7 @@
   notify: update_tmux_plugin_perms
 
 - name: mac setup | clone tmux-resurrect plugin repository
-  tags: dotfiles, ,users,tmux
+  tags: dotfiles,mac,users,tmux
   git:
     repo: https://github.com/tmux-plugins/tmux-resurrect
     dest: "{{ ansible_facts.user_dir }}/.tmux/plugins/resurrect"
@@ -126,7 +126,7 @@
     - { src: 'xml.vim' }
 
 - name: mac setup | copy vim color files
-  tags: dotfiles, ,users,vim
+  tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ ansible_facts.user_dir }}/.vim/colors/{{ item.src }}"
@@ -141,7 +141,7 @@
     - { src: 'zenburn.vim' }
 
 - name: mac setup | install pathogen
-  tags: dotfiles, ,users,vim
+  tags: dotfiles,mac,users,vim
   copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ item.dest }}"
@@ -153,7 +153,7 @@
 
 
 - name: mac setup | checkout git repositories for vim plugins
-  tags: git,users,vim
+  tags: git,mac,users,vim
   become: true
   git:
     repo: "{{ item.repo }}"
