@@ -41,7 +41,7 @@ workstation:
       mac: true
 ```
 
-and run
+and run. For BECOME password: supply the root password you've previously set
 
 ```bash
 ansible-pull -U https://github.com/brootware/ansible-machine.git -K -e "brootware_passwd=$(read -sp 'Enter password: ' p && echo $p)"
