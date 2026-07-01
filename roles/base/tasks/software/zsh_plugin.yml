@@ -1,7 +1,7 @@
 - name: Install zsh plugins
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
-    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
+    dest: "{{ ansible_facts.user_dir }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
     clone: yes
   with_items: 
     - { plugin: 'zsh-autosuggestions' }
