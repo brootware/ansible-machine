@@ -1,3 +1,4 @@
 sudo_group: sudo
 target_username: bruce
 target_user_home: /Users/bruce
+target_group: staff

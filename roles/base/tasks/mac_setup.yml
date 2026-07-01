@@ -4,7 +4,7 @@
     path: "{{ item.dir }}"
     state: directory
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0700
   with_items:
     - { dir: '{{ target_user_home }}/.ssh' }
@@ -17,7 +17,7 @@
     path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0700
   with_items:
     - { dir: '.bash' }
@@ -42,7 +42,7 @@
     src: users/brootware/tmux/tmux.conf.server
     dest: "{{ target_user_home }}/.tmux.conf"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   when: "'server' not in group_names"
   become: true
@@ -84,7 +84,7 @@
     src: users/brootware/{{ item.src }}
     dest: "{{ target_user_home }}/{{ item.dest }}"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   with_items:
     - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
@@ -108,7 +108,7 @@
     src: users/brootware/zsh/{{ item.src }}
     dest: "{{ target_user_home }}/.zsh/{{ item.src }}"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   with_items:
     - { src: 'aliases.zsh' }
@@ -131,7 +131,7 @@
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/ftplugin/{{ item.src }}"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   with_items:
     - { src: 'cmake.vim' }
@@ -149,7 +149,7 @@
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/colors/{{ item.src }}"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   with_items:
     - { src: 'bubblegum-256-dark.vim' }
@@ -166,7 +166,7 @@
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ item.dest }}"
     owner: "{{ target_username }}"
-    group: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0700
   with_items:
     - { src: 'pathogen.vim', dest: '{{ target_user_home }}/.vim/autoload/pathogen.vim' }

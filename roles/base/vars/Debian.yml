@@ -21,3 +21,4 @@ vim_package: vim-nox
 neofetch_package: neofetch
 target_username: brootware
 target_user_home: /home/brootware
+target_group: brootware
