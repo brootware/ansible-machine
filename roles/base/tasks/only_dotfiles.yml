@@ -219,8 +219,8 @@
   copy:
     src: files/ansible_setup/logrotate
     dest: /etc/newsyslog.d/ansible
-    owner: root
-    group: root
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0644
   when: ansible_facts.distribution in ["MacOSX","Darwin"]
 
@@ -229,6 +229,6 @@
   template:
     src: provision.sh.j2
     dest: /usr/local/bin/provision
-    owner: root
-    group: root
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0755
