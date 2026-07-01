@@ -37,6 +37,14 @@ curl https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main
 ./bootstrap.sh
 ```
 
+## Step by step install
+
+Install oh my zsh
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
 On ubuntu 26, you also need to install python3 passlib and inject it into pipx
 
 ```bash
