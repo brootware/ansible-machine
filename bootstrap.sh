@@ -43,12 +43,7 @@ install_deps_debian() {
     pipx install --include-deps ansible
     pipx ensurepath
 
-    # The README mentions Ubuntu 26, which might be a typo for 24.04 or a future release.
-    # This check makes the script more robust.
-    if [ -f /etc/os-release ] && grep -q 'VERSION_ID="24.04"' /etc/os-release; then
-        echo ">>> Ubuntu 24.04 detected. Injecting passlib into pipx environment for Ansible."
-        pipx inject ansible passlib
-    fi
+    pipx inject ansible passlib
 
     echo ">>> Setting root password (required for 'su' become method)..."
     echo "Please enter a new password for the root user."
