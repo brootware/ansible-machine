@@ -12,16 +12,15 @@
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
 
-  # Mac OS exclusive
+  # Only dot files
   - include_tasks: only_dotfiles.yml
     tags: mac,onlydots
-    when: mac is defined and mac == true and ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
-
-  # install software
+    when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
   - include_tasks: software/zsh_plugin.yml
     tags: mac,onlydots
     when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
 
+  # install software
   - import_tasks: software/repositories.yml
   - import_tasks: software/packages_development.yml
   - import_tasks: software/packages_cleanup.yml
