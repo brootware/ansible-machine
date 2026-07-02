@@ -37,6 +37,9 @@ jobs:
         echo "Updated hosts.yml:"
         cat hosts.yml
 
+    - name: Make bootstrap script executable
+      run: chmod +x bootstrap.sh
+
     - name: Run bootstrap script for dotfiles
       run: ./bootstrap.sh --dotfiles
       env:
@@ -87,4 +90,4 @@ jobs:
           BECOME_PASS: "ci-password"
           # pipx path for container
           BROOTWARE_PASSWD: "ci-password"
-          PATH: "/root/.local/bin:${PATH}"
+          PATH: /root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
