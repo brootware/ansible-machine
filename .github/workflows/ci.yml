@@ -37,8 +37,6 @@ jobs:
 
     - name: Prepare for ansible-pull
       run: |
-        # Install galaxy collections
-        ansible-galaxy collection install ansible.posix community.general
         # Add runner hostname to inventory
         HOSTNAME=$(hostname)
         echo "Adding hostname '$HOSTNAME' to inventory..."
@@ -88,8 +86,6 @@ jobs:
 
       - name: Prepare for ansible-pull
         run: |
-          # Install galaxy collections
-          ansible-galaxy collection install ansible.posix community.general
           HOSTNAME=$(hostname)
           echo "Adding hostname '$HOSTNAME' to inventory..."
           sed -i.bak "/^workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
