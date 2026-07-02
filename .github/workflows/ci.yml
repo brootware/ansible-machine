@@ -24,25 +24,27 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Add runner hostname to inventory
+    - name: Prepare inventory for CI
       run: |
-        # The bootstrap script verifies the hostname is in hosts.yml
-        # For CI, we add it dynamically.
-        # For macOS, we also add the 'mac: true' variable.
+        # 1. Add the dynamic runner hostname to the local hosts.yml
         if [[ "${{ matrix.distro }}" == "macos" ]]; then
           echo "    $(hostname): { mac: true }" >> hosts.yml
         else
           echo "    $(hostname): {}" >> hosts.yml
         fi
-        echo "Updated hosts.yml:"
+        echo "--- Updated local hosts.yml ---"
         cat hosts.yml
+
+        # 2. Pre-create the temp directory and copy the modified hosts.yml into it.
+        # This prevents the bootstrap script from running `git clone` or `git pull`.
+        mkdir -p /tmp/ansible-machine
+        cp hosts.yml /tmp/ansible-machine/hosts.yml
 
     - name: Install Ansible (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        python3 -m pip install --user ansible
-        python3 -m pip install --user passlib
-        echo "$HOME/Library/Python/3.9/bin" >> $GITHUB_PATH
+        pipx install ansible --include-deps
+        pipx ensurepath
 
     - name: Make bootstrap script executable
       run: chmod +x bootstrap.sh
@@ -50,8 +52,6 @@ jobs:
     - name: Run bootstrap script for dotfiles
       run: ./bootstrap.sh --dotfiles
       env:
-        # Provide variables for non-interactive execution
-        ANSIBLE_REPO: "file://${{ github.workspace }}"
         CI: true
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
@@ -75,6 +75,9 @@ jobs:
           useradd -m -s /bin/bash runner
           # Grant sudo access
           echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+          # Install ansible
+          pipx install ansible --include-deps
+          pipx ensurepath
 
       - name: Checkout repository
         uses: actions/checkout@v4
