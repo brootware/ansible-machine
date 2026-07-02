@@ -52,7 +52,7 @@ jobs:
 
     - name: Run ansible-pull for dotfiles
       run: >
-        echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'
+        echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -i hosts.yml -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'
       env:
         CI: true
         ANSIBLE_REPO: "file://${{ github.workspace }}"
@@ -97,7 +97,7 @@ jobs:
 
       - name: Run ansible-pull for dotfiles
         run: >
-          sudo -u runner -E bash -c "echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'"
+          sudo -u runner -E bash -c "echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -i hosts.yml -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'"
         env:
           CI: true
           ANSIBLE_REPO: "file://${{ github.workspace }}"
