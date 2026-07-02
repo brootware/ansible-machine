@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-dotfiles:
+    name: Test Dotfiles on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            distro: ubuntu
+          - os: macos-latest
+            distro: macos
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Add runner hostname to inventory
+      run: |
+        # The bootstrap script verifies the hostname is in hosts.yml
+        # For CI, we add it dynamically.
+        # For macOS, we also add the 'mac: true' variable.
+        if [[ "${{ matrix.distro }}" == "macos" ]]; then
+          echo "    $(hostname): { mac: true }" >> hosts.yml
+        else
+          echo "    $(hostname): {}" >> hosts.yml
+        fi
+        echo "Updated hosts.yml:"
+        cat hosts.yml
+
+    - name: Run bootstrap script for dotfiles
+      run: ./bootstrap.sh --dotfiles
+      env:
+        # Provide variables for non-interactive execution
+        CI: true
+        TARGET_USERNAME: runner
+        TARGET_GROUP: runner
+        TARGET_USER_HOME: /home/runner
+        BECOME_PASS: "ci-password"
+        BROOTWARE_PASSWD: "ci-password"
+
+  test-dotfiles-debian:
+    name: Test Dotfiles on Debian
+    runs-on: ubuntu-latest
+    container: debian:bullseye
+
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y sudo git curl zsh python3-pip python3-passlib
+          # pipx is not in debian bullseye repos, install via pip
+          python3 -m pip install pipx
+          # Add user for ansible to target
+          useradd -m -s /bin/bash runner
+          # Grant sudo access
+          echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add runner hostname to inventory
+        run: |
+          echo "    $(hostname): {}" >> hosts.yml
+          echo "Updated hosts.yml:"
+          cat hosts.yml
+
+      - name: Run bootstrap script for dotfiles
+        # Run as the non-root user we created
+        run: |
+          chown -R runner:runner .
+          sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
+        env:
+          CI: true
+          TARGET_USERNAME: runner
+          TARGET_GROUP: runner
+          TARGET_USER_HOME: /home/runner
+          BECOME_PASS: "ci-password"
+          # pipx path for container
+          BROOTWARE_PASSWD: "ci-password"
+          PATH: "/root/.local/bin:${PATH}"
