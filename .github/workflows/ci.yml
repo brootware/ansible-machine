@@ -35,24 +35,30 @@ jobs:
 
     - name: Patch bootstrap script for CI
       run: |
-        # This step modifies the bootstrap.sh script on the runner to use the local repository
-        # instead of cloning a new one. This allows the hostname check to see the local changes.
-        sed -i.bak 's|ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"|ANSIBLE_REPO="file://${{ github.workspace }}"|' bootstrap.sh
+        # This step modifies the bootstrap.sh script on the runner to prevent it from
+        # re-cloning the repo, which would lose our local hosts.yml modifications.
+        # We comment out the git operations and force it to check the local directory.
+        sed -i.bak 's|if \[ -d "$REPO_DIR" \]; then|if false; then|' bootstrap.sh
+        sed -i.bak 's|git clone "$ANSIBLE_REPO" "$REPO_DIR"|echo "Skipping clone for CI"|' bootstrap.sh
+        sed -i.bak 's|"$REPO_DIR/hosts.yml"|"./hosts.yml"|' bootstrap.sh
 
     - name: Add runner hostname to inventory
       run: |
+        HOSTNAME=$(hostname)
+        echo "Adding hostname '$HOSTNAME' to inventory..."
         if [[ "${{ matrix.distro }}" == "macos" ]]; then
-          echo "    $(hostname): { mac: true }" >> hosts.yml
+          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: { mac: true }" hosts.yml
         else
-          echo "    $(hostname): {}" >> hosts.yml
+          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
         fi
-        echo "Updated hosts.yml:"
+        echo "--- Updated hosts.yml ---"
         cat hosts.yml
 
     - name: Run bootstrap script for dotfiles
       run: ./bootstrap.sh --dotfiles
       env:
         CI: true
+        ANSIBLE_REPO: "file://${{ github.workspace }}"
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
         TARGET_USER_HOME: /home/runner
@@ -68,7 +74,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y sudo git curl zsh python3-pip
+          apt-get install -y sudo git curl zsh python3-pip python3-venv
           # pipx is not in debian bullseye repos, install via pip
           python3 -m pip install pipx
           # Add user for ansible to target
@@ -87,16 +93,21 @@ jobs:
 
       - name: Patch bootstrap script for CI
         run: |
-          # This step modifies the bootstrap.sh script on the runner to use the local repository
-          # instead of cloning a new one. This allows the hostname check to see the local changes.
-          sed -i.bak 's|ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"|ANSIBLE_REPO="file://${{ github.workspace }}"|' bootstrap.sh
+          # This step modifies the bootstrap.sh script on the runner to prevent it from
+          # re-cloning the repo, which would lose our local hosts.yml modifications.
+          # We comment out the git operations and force it to check the local directory.
+          sed -i.bak 's|if \[ -d "$REPO_DIR" \]; then|if false; then|' bootstrap.sh
+          sed -i.bak 's|git clone "$ANSIBLE_REPO" "$REPO_DIR"|echo "Skipping clone for CI"|' bootstrap.sh
+          sed -i.bak 's|"$REPO_DIR/hosts.yml"|"./hosts.yml"|' bootstrap.sh
 
       - name: Run bootstrap script for dotfiles
         # Run as the non-root user we created
         run: |
+          HOSTNAME=$(hostname)
           chown -R runner:runner .
-          echo "    $(hostname): {}" >> hosts.yml
-          echo "Updated hosts.yml:" && cat hosts.yml
+          echo "Adding hostname '$HOSTNAME' to inventory..."
+          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
+          echo "--- Updated hosts.yml ---" && cat hosts.yml
           sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
         env:
           CI: true
