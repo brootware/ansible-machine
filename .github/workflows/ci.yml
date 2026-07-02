@@ -24,22 +24,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Prepare inventory for CI
-      run: |
-        # 1. Add the dynamic runner hostname to the local hosts.yml
-        if [[ "${{ matrix.distro }}" == "macos" ]]; then
-          echo "    $(hostname): { mac: true }" >> hosts.yml
-        else
-          echo "    $(hostname): {}" >> hosts.yml
-        fi
-        echo "--- Updated local hosts.yml ---"
-        cat hosts.yml
-
-        # 2. Pre-create the temp directory and copy the modified hosts.yml into it.
-        # This prevents the bootstrap script from running `git clone` or `git pull`.
-        mkdir -p /tmp/ansible-machine
-        cp hosts.yml /tmp/ansible-machine/hosts.yml
-
     - name: Install Ansible (macOS)
       if: matrix.os == 'macos-latest'
       run: |
@@ -49,10 +33,21 @@ jobs:
     - name: Make bootstrap script executable
       run: chmod +x bootstrap.sh
 
+    - name: Add runner hostname to inventory
+      run: |
+        if [[ "${{ matrix.distro }}" == "macos" ]]; then
+          echo "    $(hostname): { mac: true }" >> hosts.yml
+        else
+          echo "    $(hostname): {}" >> hosts.yml
+        fi
+        echo "Updated hosts.yml:"
+        cat hosts.yml
+
     - name: Run bootstrap script for dotfiles
       run: ./bootstrap.sh --dotfiles
       env:
         CI: true
+        ANSIBLE_REPO: "file://${{ github.workspace }}"
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
         TARGET_USER_HOME: /home/runner
@@ -67,8 +62,7 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y sudo git curl zsh python3-pip python3-passlib
+          apt-get install -y sudo git curl zsh python3-pip
           # pipx is not in debian bullseye repos, install via pip
           python3 -m pip install pipx
           # Add user for ansible to target
@@ -82,12 +76,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Add runner hostname to inventory
-        run: |
-          echo "    $(hostname): {}" >> hosts.yml
-          echo "Updated hosts.yml:"
-          cat hosts.yml
-
       - name: Make bootstrap script executable
         run: chmod +x bootstrap.sh
 
@@ -95,6 +83,8 @@ jobs:
         # Run as the non-root user we created
         run: |
           chown -R runner:runner .
+          echo "    $(hostname): {}" >> hosts.yml
+          echo "Updated hosts.yml:"
           sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
         env:
           CI: true
