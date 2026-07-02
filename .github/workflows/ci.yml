@@ -41,9 +41,15 @@ jobs:
         ansible-galaxy collection install ansible.posix community.general
         # Add runner hostname to inventory
         HOSTNAME=$(hostname)
-          echo "Adding hostname '$HOSTNAME' to inventory..."
+        echo "Adding hostname '$HOSTNAME' to inventory..."
+        if [[ "${{ matrix.distro }}" == "macos" ]]; then
+          sed -i.bak "/^workstation:/a\\    ${HOSTNAME}: { mac: true }" hosts.yml
+          # Set root password for ansible 'su' become method on macOS
+          echo "ci-password" | sudo -S chpasswd -u root
+        else
           sed -i.bak "/^workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
-          echo "--- Updated hosts.yml ---" && cat hosts.yml
+        fi
+        echo "--- Updated hosts.yml ---"
         cat hosts.yml
 
     - name: Run ansible-pull for dotfiles
@@ -54,7 +60,7 @@ jobs:
         ANSIBLE_REPO: "file://${{ github.workspace }}"
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
-        TARGET_USER_HOME: ${{ env.RUNNER_HOME }}
+        TARGET_USER_HOME: ${{ env.HOME }}
         BECOME_PASS: ci-password
 
   test-dotfiles-debian:
