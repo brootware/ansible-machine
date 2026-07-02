@@ -42,7 +42,7 @@ jobs:
         # Add runner hostname to inventory
         HOSTNAME=$(hostname)
           echo "Adding hostname '$HOSTNAME' to inventory..."
-          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
+          sed -i.bak "/^workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
           echo "--- Updated hosts.yml ---" && cat hosts.yml
         cat hosts.yml
 
@@ -86,7 +86,7 @@ jobs:
           ansible-galaxy collection install ansible.posix community.general
           HOSTNAME=$(hostname)
           echo "Adding hostname '$HOSTNAME' to inventory..."
-          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
+          sed -i.bak "/^workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
           echo "--- Updated hosts.yml ---" && cat hosts.yml
           # Set root password for ansible 'su' become method
           echo "root:ci-password" | chpasswd
