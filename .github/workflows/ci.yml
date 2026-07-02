@@ -30,40 +30,42 @@ jobs:
         pipx install ansible --include-deps
         pipx ensurepath
 
-    - name: Make bootstrap script executable
-      run: chmod +x bootstrap.sh
-
-    - name: Patch bootstrap script for CI
+    - name: Prepare for ansible-pull
       run: |
-        # This step modifies the bootstrap.sh script on the runner to prevent it from
-        # re-cloning the repo, which would lose our local hosts.yml modifications.
-        # We comment out the git operations and force it to check the local directory.
-        sed -i.bak 's|if \[ -d "$REPO_DIR" \]; then|if false; then|' bootstrap.sh
-        sed -i.bak 's|git clone "$ANSIBLE_REPO" "$REPO_DIR"|echo "Skipping clone for CI"|' bootstrap.sh
-        sed -i.bak 's|"$REPO_DIR/hosts.yml"|"./hosts.yml"|' bootstrap.sh
-
-    - name: Add runner hostname to inventory
-      run: |
+        # Install galaxy collections
+        ansible-galaxy collection install ansible.posix community.general
+        # Add runner hostname to inventory
         HOSTNAME=$(hostname)
         echo "Adding hostname '$HOSTNAME' to inventory..."
         if [[ "${{ matrix.distro }}" == "macos" ]]; then
           sed -i.bak "/workstation:/a\\    ${HOSTNAME}: { mac: true }" hosts.yml
+          # Set root password for ansible 'su' become method on macOS
+          echo "root:ci-password" | sudo chpasswd
         else
           sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
+          # Set root password for ansible 'su' become method on Ubuntu
+          echo "root:ci-password" | sudo chpasswd
         fi
         echo "--- Updated hosts.yml ---"
         cat hosts.yml
 
-    - name: Run bootstrap script for dotfiles
-      run: ./bootstrap.sh --dotfiles
+    - name: Run ansible-pull for dotfiles
+      run: >
+        echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'
       env:
         CI: true
         ANSIBLE_REPO: "file://${{ github.workspace }}"
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
-        TARGET_USER_HOME: /home/runner
-        BECOME_PASS: "ci-password"
-        BROOTWARE_PASSWD: "ci-password"
+        TARGET_USER_HOME: ${{ env.RUNNER_HOME }}
+        BECOME_PASS: ci-password
+
+    env:
+      RUNNER_HOME: /home/runner
+      # Override for macOS
+      ${{ matrix.os == 'macos-latest' && 'RUNNER_HOME' }}: /Users/runner
+      # Add pipx to PATH for all steps
+      PATH: /home/runner/.local/bin:/Users/runner/.local/bin:${{ env.PATH }}
 
   test-dotfiles-debian:
     name: Test Dotfiles on Debian
@@ -88,27 +90,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Make bootstrap script executable
-        run: chmod +x bootstrap.sh
-
-      - name: Patch bootstrap script for CI
-        run: |
-          # This step modifies the bootstrap.sh script on the runner to prevent it from
-          # re-cloning the repo, which would lose our local hosts.yml modifications.
-          # We comment out the git operations and force it to check the local directory.
-          sed -i.bak 's|if \[ -d "$REPO_DIR" \]; then|if false; then|' bootstrap.sh
-          sed -i.bak 's|git clone "$ANSIBLE_REPO" "$REPO_DIR"|echo "Skipping clone for CI"|' bootstrap.sh
-          sed -i.bak 's|"$REPO_DIR/hosts.yml"|"./hosts.yml"|' bootstrap.sh
-
-      - name: Run bootstrap script for dotfiles
-        # Run as the non-root user we created
+      - name: Prepare for ansible-pull
         run: |
           HOSTNAME=$(hostname)
-          chown -R runner:runner .
           echo "Adding hostname '$HOSTNAME' to inventory..."
           sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
           echo "--- Updated hosts.yml ---" && cat hosts.yml
-          sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
+          # Set root password for ansible 'su' become method
+          echo "root:ci-password" | chpasswd
+          # Install galaxy collections
+          ansible-galaxy collection install ansible.posix community.general
+          # Change ownership to the user who will run ansible-pull
+          chown -R runner:runner .
+
+      - name: Run ansible-pull for dotfiles
+        run: >
+          sudo -u runner -E bash -c "echo '${BECOME_PASS}' | ansible-pull -U '${ANSIBLE_REPO}' -K --tags 'onlydotfiles' -e 'target_username=${TARGET_USERNAME}' -e 'target_group=${TARGET_GROUP}' -e 'target_user_home=${TARGET_USER_HOME}'"
         env:
           CI: true
           ANSIBLE_REPO: "file://${{ github.workspace }}"
@@ -116,5 +113,5 @@ jobs:
           TARGET_GROUP: runner
           TARGET_USER_HOME: /home/runner
           # pipx path for container
-          BECOME_PASS: "ci-password"
-          PATH: /root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+          BECOME_PASS: ci-password
+          PATH: /root/.local/bin:/home/runner/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
