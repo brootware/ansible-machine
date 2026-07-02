@@ -8,6 +8,7 @@ Install Zsh and OhMyZsh for Ubuntu or Debian based distros.
 
 ```bash
 sudo apt install zsh curl git pipx python3-passlib -y
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 pipx install --include-deps ansible
 pipx ensurepath
 ```
