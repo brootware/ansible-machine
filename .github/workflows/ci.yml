@@ -30,6 +30,11 @@ jobs:
         pipx install ansible --include-deps
         pipx ensurepath
 
+    - name: Add pipx to PATH
+      run: |
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      shell: bash
+
     - name: Prepare for ansible-pull
       run: |
         # Install galaxy collections
@@ -59,13 +64,6 @@ jobs:
         TARGET_GROUP: runner
         TARGET_USER_HOME: ${{ env.RUNNER_HOME }}
         BECOME_PASS: ci-password
-
-    env:
-      RUNNER_HOME: /home/runner
-      # Override for macOS
-      ${{ matrix.os == 'macos-latest' && 'RUNNER_HOME' }}: /Users/runner
-      # Add pipx to PATH for all steps
-      PATH: /home/runner/.local/bin:/Users/runner/.local/bin:${{ env.PATH }}
 
   test-dotfiles-debian:
     name: Test Dotfiles on Debian
