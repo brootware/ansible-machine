@@ -41,17 +41,9 @@ jobs:
         ansible-galaxy collection install ansible.posix community.general
         # Add runner hostname to inventory
         HOSTNAME=$(hostname)
-        echo "Adding hostname '$HOSTNAME' to inventory..."
-        if [[ "${{ matrix.distro }}" == "macos" ]]; then
-          sed -i.bak "/workstation:/a\\    ${HOSTNAME}: { mac: true }" hosts.yml
-          # Set root password for ansible 'su' become method on macOS
-          echo "root:ci-password" | sudo chpasswd
-        else
+          echo "Adding hostname '$HOSTNAME' to inventory..."
           sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
-          # Set root password for ansible 'su' become method on Ubuntu
-          echo "root:ci-password" | sudo chpasswd
-        fi
-        echo "--- Updated hosts.yml ---"
+          echo "--- Updated hosts.yml ---" && cat hosts.yml
         cat hosts.yml
 
     - name: Run ansible-pull for dotfiles
@@ -90,14 +82,14 @@ jobs:
 
       - name: Prepare for ansible-pull
         run: |
+          # Install galaxy collections
+          ansible-galaxy collection install ansible.posix community.general
           HOSTNAME=$(hostname)
           echo "Adding hostname '$HOSTNAME' to inventory..."
           sed -i.bak "/workstation:/a\\    ${HOSTNAME}: {}" hosts.yml
           echo "--- Updated hosts.yml ---" && cat hosts.yml
           # Set root password for ansible 'su' become method
           echo "root:ci-password" | chpasswd
-          # Install galaxy collections
-          ansible-galaxy collection install ansible.posix community.general
           # Change ownership to the user who will run ansible-pull
           chown -R runner:runner .
 
