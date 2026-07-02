@@ -33,6 +33,12 @@ jobs:
     - name: Make bootstrap script executable
       run: chmod +x bootstrap.sh
 
+    - name: Patch bootstrap script for CI
+      run: |
+        # This step modifies the bootstrap.sh script on the runner to use the local repository
+        # instead of cloning a new one. This allows the hostname check to see the local changes.
+        sed -i.bak 's|ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"|ANSIBLE_REPO="file://${{ github.workspace }}"|' bootstrap.sh
+
     - name: Add runner hostname to inventory
       run: |
         if [[ "${{ matrix.distro }}" == "macos" ]]; then
@@ -47,7 +53,6 @@ jobs:
       run: ./bootstrap.sh --dotfiles
       env:
         CI: true
-        ANSIBLE_REPO: "file://${{ github.workspace }}"
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
         TARGET_USER_HOME: /home/runner
@@ -62,6 +67,7 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
+          apt-get update
           apt-get install -y sudo git curl zsh python3-pip
           # pipx is not in debian bullseye repos, install via pip
           python3 -m pip install pipx
@@ -79,12 +85,18 @@ jobs:
       - name: Make bootstrap script executable
         run: chmod +x bootstrap.sh
 
+      - name: Patch bootstrap script for CI
+        run: |
+          # This step modifies the bootstrap.sh script on the runner to use the local repository
+          # instead of cloning a new one. This allows the hostname check to see the local changes.
+          sed -i.bak 's|ANSIBLE_REPO="https://github.com/brootware/ansible-machine.git"|ANSIBLE_REPO="file://${{ github.workspace }}"|' bootstrap.sh
+
       - name: Run bootstrap script for dotfiles
         # Run as the non-root user we created
         run: |
           chown -R runner:runner .
           echo "    $(hostname): {}" >> hosts.yml
-          echo "Updated hosts.yml:"
+          echo "Updated hosts.yml:" && cat hosts.yml
           sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
         env:
           CI: true
@@ -92,7 +104,6 @@ jobs:
           TARGET_USERNAME: runner
           TARGET_GROUP: runner
           TARGET_USER_HOME: /home/runner
-          BECOME_PASS: "ci-password"
           # pipx path for container
-          BROOTWARE_PASSWD: "ci-password"
+          BECOME_PASS: "ci-password"
           PATH: /root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
