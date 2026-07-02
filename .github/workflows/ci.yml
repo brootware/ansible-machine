@@ -37,6 +37,13 @@ jobs:
         echo "Updated hosts.yml:"
         cat hosts.yml
 
+    - name: Install Ansible (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        python3 -m pip install --user ansible
+        python3 -m pip install --user passlib
+        echo "$HOME/Library/Python/3.9/bin" >> $GITHUB_PATH
+
     - name: Make bootstrap script executable
       run: chmod +x bootstrap.sh
 
@@ -44,6 +51,7 @@ jobs:
       run: ./bootstrap.sh --dotfiles
       env:
         # Provide variables for non-interactive execution
+        ANSIBLE_REPO: "file://${{ github.workspace }}"
         CI: true
         TARGET_USERNAME: runner
         TARGET_GROUP: runner
@@ -77,6 +85,9 @@ jobs:
           echo "Updated hosts.yml:"
           cat hosts.yml
 
+      - name: Make bootstrap script executable
+        run: chmod +x bootstrap.sh
+
       - name: Run bootstrap script for dotfiles
         # Run as the non-root user we created
         run: |
@@ -84,6 +95,7 @@ jobs:
           sudo -u runner -E bash -c './bootstrap.sh --dotfiles'
         env:
           CI: true
+          ANSIBLE_REPO: "file://${{ github.workspace }}"
           TARGET_USERNAME: runner
           TARGET_GROUP: runner
           TARGET_USER_HOME: /home/runner
