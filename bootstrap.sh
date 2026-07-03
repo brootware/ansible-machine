@@ -31,12 +31,12 @@ install_deps_debian() {
     sudo apt-get update
     sudo apt-get install -y zsh curl git pipx python3-passlib
 
-    echo ">>> Installing Oh My Zsh non-interactively..."
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    else
-        echo "Oh My Zsh is already installed. Skipping."
-    fi
+    # echo ">>> Installing Oh My Zsh non-interactively..."
+    # if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    #     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # else
+    #     echo "Oh My Zsh is already installed. Skipping."
+    # fi
 
     echo ">>> Installing Ansible with pipx..."
     pipx install --include-deps ansible
