@@ -6,7 +6,13 @@ function cd() {
     if [ $# -eq 0 ]; then
         new_directory=${HOME};
     fi;
-    builtin cd "${new_directory}" && /bin/ls -lhF --time-style=long-iso --color=auto --ignore=lost+found
+    if [[ "$(uname)" == "Darwin" ]]; then
+      # macOS (BSD) ls
+      builtin cd "${new_directory}" && /bin/ls -lhFGT
+    else
+      # Linux (GNU) ls
+      builtin cd "${new_directory}" && /bin/ls -lhF --time-style=long-iso --color=auto --ignore=lost+found
+    fi
 }
 
 # Make a directory, then go there
