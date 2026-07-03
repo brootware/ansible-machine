@@ -14,10 +14,18 @@ alias E="vim -o "
 alias egrep='egrep --colour=auto'
 alias extip='curl icanhazip.com'
 alias grep='grep --color=auto'
-alias l.='ls -lhFa --time-style=long-iso --color=auto'
-alias ll='ls'
 alias ln='ln -iv'
-alias ls=' ls -lhF --color=auto --human-readable --time-style=long-iso --classify'
+alias ll='ls'
+alias ll=' ls'
+if [[ "$(uname)" == "Darwin" ]]; then
+  # macOS (BSD) ls
+  alias ls='ls -lhFGT'
+  alias l.='ls -lhFaGT'
+else
+  # Linux (GNU) ls
+  alias ls='ls -lhF --time-style=long-iso --color=auto'
+  alias l.='ls -lhFa --time-style=long-iso --color=auto'
+fi
 alias lsmount='mount |column -t'
 alias mkdir='mkdir -pv'
 alias mv='mv -iv'

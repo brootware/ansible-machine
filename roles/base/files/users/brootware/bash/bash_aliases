@@ -15,6 +15,7 @@ alias e="vim -O "
 alias E="vim -o "
 alias extip='curl icanhazip.com'
 alias grep='grep --color=auto'
+alias ll=' ls'
 if [[ "$(uname)" == "Darwin" ]]; then
   # macOS (BSD) ls
   alias ls='ls -lhFGT'
