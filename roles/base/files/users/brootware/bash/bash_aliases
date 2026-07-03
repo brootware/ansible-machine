@@ -15,9 +15,15 @@ alias e="vim -O "
 alias E="vim -o "
 alias extip='curl icanhazip.com'
 alias grep='grep --color=auto'
-alias l.=' ls -lhFa --time-style=long-iso --color=auto'
-alias ll=' ls'
-alias ls=' ls -lhF --time-style=long-iso --color=auto'
+if [[ "$(uname)" == "Darwin" ]]; then
+  # macOS (BSD) ls
+  alias ls='ls -lhFGT'
+  alias l.='ls -lhFaGT'
+else
+  # Linux (GNU) ls
+  alias ls='ls -lhF --time-style=long-iso --color=auto'
+  alias l.='ls -lhFa --time-style=long-iso --color=auto'
+fi
 alias lsmount='mount |column -t'
 alias mkdir='mkdir -pv'
 alias ports='netstat -tulanp'
