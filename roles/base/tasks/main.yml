@@ -10,9 +10,9 @@
 
 
   # Set up the ansible environment
-  - import_tasks: ansible_setup.yml
+  - import_tasks: software/ansible_setup.yml
   # Only dot files
-  - include_tasks: only_dotfiles.yml
+  - include_tasks: software/only_dotfiles.yml
     tags: mac,onlydotfiles
     # when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
   - include_tasks: software/zsh_plugin.yml
