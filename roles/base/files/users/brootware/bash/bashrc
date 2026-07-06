@@ -68,3 +68,9 @@ alias chgrp='chgrp --preserve-root'
 
 # reload bash config
 alias bashup="source ~/.bashrc"
+
+# add scripts in /opt/ directory to execute from anywhere
+export PATH=$PATH:/opt
+
+# add path for cargo
+export PATH=$PATH:~/.cargo/bin
