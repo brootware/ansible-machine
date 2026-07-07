@@ -1,22 +1,17 @@
----
-- name: Configure Windows Dotfiles
-  hosts: windows_host
-  gather_facts: true
-  tasks:
-    - name: Ensure PowerShell directory structure exists
-      ansible.windows.win_file:
-        path: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\config'
-        state: directory
+- name: Ensure PowerShell directory structure exists
+  ansible.windows.win_file:
+    path: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\config'
+    state: directory
 
-    - name: Copy modular dotfiles to config directory
-      ansible.windows.win_copy:
-        src: '{{ item }}'
-        dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\config\{{ item | basename }}'
-      with_fileglob:
-        - "files/config/*.ps1"
+- name: Copy modular dotfiles to config directory
+  ansible.windows.win_copy:
+    src: '{{ item }}'
+    dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\config\{{ item | basename }}'
+  with_fileglob:
+    - "files/config/*.ps1"
 
-    - name: Deploy the main PowerShell Profile
-      ansible.windows.win_copy:
-        src: files/Microsoft.PowerShell_profile.ps1
-        dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
-        force: yes
+- name: Deploy the main PowerShell Profile
+  ansible.windows.win_copy:
+    src: files/Microsoft.PowerShell_profile.ps1
+    dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
+    force: yes
