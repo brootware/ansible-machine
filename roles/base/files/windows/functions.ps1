@@ -69,3 +69,18 @@ function Set-Environment([String] $variable, [String] $value) {
     #[System.Environment]::SetEnvironmentVariable("$variable", "$value","User")
     Invoke-Expression "`$env:${variable} = `"$value`""
 }
+
+### Utilities
+### ----------------------------
+
+# Convert a number to a disk size (12.4K or 5M)
+function Convert-ToDiskSize {
+    param ( $bytes, $precision='0' )
+    foreach ($size in ("B","K","M","G","T")) {
+        if (($bytes -lt 1000) -or ($size -eq "T")){
+            $bytes = ($bytes).tostring("F0" + "$precision")
+            return "${bytes}${size}"
+        }
+        else { $bytes /= 1KB }
+    }
+}
