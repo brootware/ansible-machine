@@ -74,3 +74,6 @@ export PATH=$PATH:/opt
 
 # add path for cargo
 export PATH=$PATH:~/.cargo/bin
+
+# path for pipx
+export PATH=$PATH:~/.local/bin
