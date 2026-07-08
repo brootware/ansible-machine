@@ -61,7 +61,7 @@ install_galaxy_collections() {
 
 verify_host_in_inventory() {
     echo ">>> Cloning/updating repository to check for hostname..."
-    if [ -d "$REPO_DIR" ]; then
+    if [ -d "$REPO_DIR/.git" ]; then
         (cd "$REPO_DIR" && git pull)
     else
         git clone "$ANSIBLE_REPO" "$REPO_DIR"
