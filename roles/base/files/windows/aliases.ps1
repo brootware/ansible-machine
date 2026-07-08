@@ -7,7 +7,7 @@ Set-Alias which Get-Command
 Set-Alias mkd CreateAndSet-Directory
 
 # Determine size of a file or total size of a directory
-Set-Alias df Get-DiskUsage
+Set-Alias fs Get-DiskUsage
 
 # Cleanup old files all drives
 Set-Alias cleandisks Clean-Disks
