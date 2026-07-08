@@ -45,7 +45,6 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/brootware/ansible-mach
 .\bootstrap.ps1
 ```
 
-
 ## Step by step install
 
 Install oh my zsh

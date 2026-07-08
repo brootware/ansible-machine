@@ -34,9 +34,27 @@ Write-Host "Installing main PowerShell profile..."
 Invoke-RestMethod -Uri $ProfileSourceUrl -OutFile $PSProfilePath
 
 Write-Host "Installing modular PowerShell configuration..."
-# In a real-world scenario with multiple files, you would list them or fetch a file list.
-# For now, we'll assume a known file, e.g., 'aliases.ps1'.
-# To make this dynamic, you could host a manifest file in your repo.
-# Invoke-RestMethod -Uri "$ModularConfigBaseUrl/aliases.ps1" -OutFile (Join-Path $PSConfigPath "aliases.ps1")
+
+# Use GitHub API to list files in the config directory
+$ApiUrl = "https://api.github.com/repos/$RepoOwner/$RepoName/contents/roles/base/files/windows/config?ref=$Branch"
+
+try {
+    $files = Invoke-RestMethod -Uri $ApiUrl -ErrorAction Stop
+    
+    # Filter for .ps1 files and download them
+    $ps1Files = $files | Where-Object { $_.type -eq 'file' -and $_.name -like '*.ps1' }
+
+    if ($ps1Files) {
+        foreach ($file in $ps1Files) {
+            $destinationFilePath = Join-Path -Path $PSConfigPath -ChildPath $file.name
+            Write-Host "Downloading $($file.name)..."
+            Invoke-RestMethod -Uri $file.download_url -OutFile $destinationFilePath
+        }
+    } else {
+        Write-Warning "No .ps1 files found in the config directory. If you have config files, ensure they are in 'roles/base/files/windows/config'."
+    }
+} catch {
+    Write-Error "Failed to retrieve file list from GitHub API. Please check the repository path and your internet connection. Error: $($_.Exception.Message)"
+}
 
 Write-Host "Bootstrap complete! Please restart your PowerShell session."
