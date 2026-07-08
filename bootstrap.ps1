@@ -20,8 +20,8 @@ $ProfileSourceUrl = "$BaseUrl/roles/base/files/windows/Microsoft.Powershell_prof
 $ModularConfigBaseUrl = "$BaseUrl/roles/base/files/windows/config"
 
 $DocumentsPath = [Environment]::GetFolderPath('MyDocuments')
-$PSConfigPath = Join-Path -Path $DocumentsPath -ChildPath "PowerShell\config"
-$PSProfilePath = Join-Path -Path $DocumentsPath -ChildPath "PowerShell\Microsoft.PowerShell_profile.ps1"
+$PSConfigPath = Join-Path -Path $DocumentsPath -ChildPath "WindowsPowerShell\config"
+$PSProfilePath = Join-Path -Path $DocumentsPath -ChildPath "WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
 
 # --- Installation ---
 
