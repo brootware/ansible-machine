@@ -125,8 +125,7 @@ if [ -f /usr/bin/apt ]; then
   alias update='sudo apt update'
   alias upgrade='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove && sudo apt clean'
   alias install='sudo apt install'
-fi
-if [ -f /usr/bin/dnf ]; then
+elif [ -f /usr/bin/dnf ]; then
   alias update='sudo dnf -Syyy'
   alias upgrade='sudo dnf -Syu'
   alias install='sudo dnf -S'
