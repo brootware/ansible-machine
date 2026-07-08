@@ -29,7 +29,7 @@ workstation:
       mac: true
 ```
 
-## 1 script install
+## 1 script install (Linux,Mac)
 
 This will install the dotfiles from this repo to your machine.
 
@@ -37,6 +37,14 @@ This will install the dotfiles from this repo to your machine.
 curl https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main/bootstrap.sh > bootstrap.sh && chmod +x bootstrap.sh
 ./bootstrap.sh -h
 ```
+
+## 1 script install (Windows)
+
+```bash
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main/bootstrap.ps1" -OutFile "bootstrap.ps1"
+.\bootstrap.ps1
+```
+
 
 ## Step by step install
 
