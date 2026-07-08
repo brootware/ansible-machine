@@ -15,6 +15,6 @@
 - name: windows dotfiles | Deploy the main PowerShell Profile
   tags: windows,powershell
   ansible.windows.win_copy:
-    src: files/Microsoft.PowerShell_profile.ps1
+    src: files/windows/Microsoft.PowerShell_profile.ps1
     dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
     force: yes
