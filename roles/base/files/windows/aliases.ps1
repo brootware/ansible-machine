@@ -3,12 +3,20 @@ Set-Alias ll ls
 Set-Alias grep Select-String
 Set-Alias which Get-Command
 
-# Infrastructure & Automation Shortcuts
-Set-Alias tf terraform
-Set-Alias ap ansible-playbook
+# Create a new directory and enter it
+Set-Alias mkd CreateAndSet-Directory
 
-# Git Shortcuts (Using functions to pass arguments easily)
-function gs { git status }
-function ga { git add . }
-function gc { git commit -m $args }
-function gp { git push }
+# Determine size of a file or total size of a directory
+Set-Alias fs Get-DiskUsage
+
+# Cleanup old files all drives
+Set-Alias cleandisks Clean-Disks
+
+# Reload the shell
+Set-Alias poshup Reload-Profile
+
+# vi to vim
+Set-Alias vi vim
+
+# edit host file
+Set-Alias hosts Edit-Hosts
