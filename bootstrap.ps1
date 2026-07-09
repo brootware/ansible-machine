@@ -17,7 +17,7 @@ $Branch = "main"
 $BaseUrl = "https://raw.githubusercontent.com/$RepoOwner/$RepoName/$Branch"
 
 $ProfileSourceUrl = "$BaseUrl/roles/base/files/windows/Microsoft.Powershell_profile.ps1"
-$ModularConfigBaseUrl = "$BaseUrl/roles/base/files/windows/config"
+$ModularConfigBaseUrl = "$BaseUrl/roles/base/files/windows"
 
 $DocumentsPath = [Environment]::GetFolderPath('MyDocuments')
 $PSConfigPath = Join-Path -Path $DocumentsPath -ChildPath "WindowsPowerShell\config"
