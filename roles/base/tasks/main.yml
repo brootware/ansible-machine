@@ -20,7 +20,7 @@
     # when: ansible_facts.distribution in ["MacOSX","Darwin","Debian","Linux Mint","Ubuntu"]
   - include_tasks: software/windows_dotfiles.yml
     tags: windows,powershell
-    # when: ansible_facts.distribution in ["Windows"]
+    when: ansible_facts.distribution in ["Windows"]
 
 
   # install software
