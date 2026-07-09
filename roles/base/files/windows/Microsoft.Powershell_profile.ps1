@@ -1,5 +1,5 @@
 # --- Dotfiles Loader ---
-$DotfilesConfig = Join-Path (Split-Path -Parent $PROFILE) "config"
+$DotfilesConfig = Join-Path (Split-Path -Parent $PROFILE)
 if (Test-Path $DotfilesConfig) {
     Get-ChildItem -Path $DotfilesConfig\*.ps1 | ForEach-Object { . $_.FullName }
 }
