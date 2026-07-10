@@ -1,3 +1,3 @@
 user_passwd: password-hash-goes-here
 swappiness_value: 5
-ssh_users: [brootware,goodegg]
+ssh_users: brootware goodegg
