@@ -2,7 +2,7 @@
   tags: goodegg,sudo,users
   user:
     name: goodegg
-    group: goodegg
+    group: brootware
     groups: adm,ansible,{{ sudo_group }}
     state: present
     comment: "goodegg "
