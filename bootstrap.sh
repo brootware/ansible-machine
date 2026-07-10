@@ -86,10 +86,10 @@ run_ansible_full() {
     echo ">>> Running ansible-pull..."
     if [[ -n "$CI" ]]; then
         echo ">>> [CI] Running ansible-pull non-interactively..."
-        echo "$BECOME_PASS" | ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "brootware_passwd=${BROOTWARE_PASSWD}"
+        echo "$BECOME_PASS" | ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=${BROOTWARE_PASSWD}"
     else
         # The -U flag handles both cloning for the first time and updating on subsequent runs.
-        ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "brootware_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
+        ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
     fi
 }
 

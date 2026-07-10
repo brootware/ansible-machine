@@ -1,2 +1,2 @@
-brootware_passwd: password-hash-goes-here
+user_passwd: password-hash-goes-here
 swappiness_value: 5

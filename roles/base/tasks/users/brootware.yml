@@ -15,7 +15,7 @@
     groups: adm,ansible,{{ sudo_group }}
     state: present
     comment: "brootware "
-    password: "{{ brootware_passwd | password_hash('sha512') }}"
+    password: "{{ user_passwd | password_hash('sha512') }}"
     shell: /bin/bash
 
 - name: users | brootware | brootware | add sudoers file

@@ -74,7 +74,7 @@ ansible-galaxy collection install ansible.posix community.general
 and run. For BECOME password: supply the root password you've previously set
 
 ```bash
-ansible-pull -U https://github.com/brootware/ansible-machine.git -K -e "brootware_passwd=$(read -sp 'Enter password: ' p && echo $p)"
+ansible-pull -U https://github.com/brootware/ansible-machine.git -K -e "user_passwd=$(read -sp 'Enter password: ' p && echo $p)"
 ```
 
 For Macbook setup only without creating extra users. Ensure mac is defined in [hosts.yml](hosts.yml).

@@ -1,3 +1,14 @@
+- name: users | goodegg | create user
+  tags: goodegg,sudo,users
+  user:
+    name: goodegg
+    group: goodegg
+    groups: adm,ansible,{{ sudo_group }}
+    state: present
+    comment: "goodegg "
+    password: "{{ user_passwd | password_hash('sha512') }}"
+    shell: /bin/bash
+
 - name: users | goodegg | add public key
   tags: dotfiles,goodegg,ssh,ssh-keys,users
   authorized_key:
