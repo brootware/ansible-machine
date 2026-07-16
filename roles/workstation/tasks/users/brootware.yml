@@ -1,10 +1,10 @@
 - name: users | brootware | workstation | create personal config directories
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   file:
-    path: /home/brootware/{{ item.dir }}
+    path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
-    owner: brootware
-    group: brootware
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0700
   with_items:
     - { dir: .config }
