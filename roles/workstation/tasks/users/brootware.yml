@@ -1,4 +1,4 @@
-- name: users | brootware | create personal config directories
+- name: users | brootware | workstation | create personal config directories
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   file:
     path: /home/brootware/{{ item.dir }}
@@ -16,7 +16,7 @@
     - { dir: .local/share/applications }
     - { dir: bin }
 
-- name: users | brootware | copy personal config files
+- name: users | brootware | workstation | copy personal config files
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
