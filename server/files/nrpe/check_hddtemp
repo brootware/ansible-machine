@@ -25,7 +25,7 @@ function usage()
 function check_root()
 {
 	# make sure script is running as root
-	if [ `whoami` != root ]; then
+	if [ "$(whoami)" != root ]; then
 		echo "UNKNOWN: please make sure script is running as root"
 		exit $UNKNOWN
 	fi
