@@ -1,4 +1,4 @@
-- name: users | brootware | workstation | create personal config directories
+- name: users | workstation | create personal config directories
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   file:
     path: "{{ target_user_home }}/{{ item.dir }}"
@@ -16,13 +16,13 @@
     - { dir: .local/share/applications }
     - { dir: bin }
 
-- name: users | brootware | workstation | copy personal config files
+- name: users | workstation | copy personal config files
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
     dest: "{{ target_user_home }}/{{ item.dest }}"
-    owner: brootware
-    group: brootware
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: 0600
   with_items:
     - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
