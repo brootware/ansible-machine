@@ -1,5 +1,5 @@
 - name: users | brootware | create personal config directories
-  tags: dotfiles,dotfiles-brootware
+  tags: onlydotfiles,mac,tmux,users,vim,zsh
   file:
     path: /home/brootware/{{ item.dir }}
     state: directory
@@ -17,7 +17,7 @@
     - { dir: bin }
 
 - name: users | brootware | copy personal config files
-  tags: dotfiles,dotfiles-brootware
+  tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
     dest: /home/brootware/{{ item.dest }}
