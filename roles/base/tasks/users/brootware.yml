@@ -48,12 +48,3 @@
   with_file:
     - users/brootware/ssh/brootware_id_ed25519.pub
     - users/brootware/ssh/brootware_id_rsa.pub
-
-- name: users | brootware | add ssh config file
-  tags: dotfiles,brootware,ssh,users
-  copy:
-    src: users/brootware/ssh/config
-    dest: "{{ target_user_home }}/.ssh/config"
-    owner: "{{ target_username }}"
-    group: "{{ target_group }}"
-    mode: 0600

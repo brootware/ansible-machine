@@ -25,12 +25,3 @@
     owner: root
     group: root
     mode: 0440
-
-- name: users | goodegg | add ssh config file
-  tags: dotfiles,goodegg,ssh,users
-  copy:
-    src: users/goodegg/ssh/config
-    dest: "{{ target_user_home }}/.ssh/config"
-    owner: "{{ target_username }}"
-    group: "{{ target_group }}"
-    mode: 0600
