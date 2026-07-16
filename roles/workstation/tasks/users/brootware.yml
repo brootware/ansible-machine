@@ -20,7 +20,7 @@
   tags: onlydotfiles,mac,tmux,users,vim,zsh
   copy:
     src: users/brootware/{{ item.src }}
-    dest: /home/brootware/{{ item.dest }}
+    dest: "{{ target_user_home }}/{{ item.dest }}"
     owner: brootware
     group: brootware
     mode: 0600
