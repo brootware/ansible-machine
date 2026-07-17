@@ -1,3 +1,17 @@
-#SPDX-License-Identifier: MIT-0
----
-# tasks file for server
+# Load distro-specific variables
+- include_vars: "{{ ansible_facts.distribution }}.yml"
+  tags: always
+
+- block:
+  - import_tasks: nrpe.yml
+  - import_tasks: ufw.yml
+  - import_tasks: qemu-agent.yml
+
+  - include_tasks: unattended_upgrades.yml
+    when:
+      - ansible_distribution in ["Debian", "Ubuntu"]
+      - unattended_upgrades is defined
+      - unattended_upgrades == true
+
+  rescue:
+    - set_fact: task_failed=true
