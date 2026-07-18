@@ -11,6 +11,12 @@
     name: "{{ qemu_agent_service }}"
     state: restarted
 
+- name: restart_spice_vdagent
+  tags: spice-vdagent
+  service:
+    name: spice-vdagent
+    state: restarted
+
 - name: restart_ufw
   tags: ufw
   service:

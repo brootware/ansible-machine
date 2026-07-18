@@ -1,0 +1,18 @@
+# spice-vdagent
+
+- name: spice-vdagent | install package
+  tags: packages,spice-vdagent
+  package:
+    state: latest
+    name:
+      - spice-vdagent
+  when: proxmox_instance is defined and proxmox_instance == true
+  notify:
+    - restart_spice_vdagent
+
+- name: spice-vdagent | enable spice-vdagent daemon
+  service:
+    name: spice-vdagent
+    enabled: yes
+    state: started
+  when: proxmox_instance is defined and proxmox_instance == true
