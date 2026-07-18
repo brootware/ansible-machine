@@ -207,11 +207,8 @@
     port: ssh
     src: '{{ item }}'
   loop:
-    - 10.10.10.10/24
-    - 172.16.248.0/24
+    - 192.168.123.0/24
     - 192.168.10.0/24
-    - 172.16.250.0/24
-    - 172.16.251.0/24
   when:
     - linode_instance is defined
     - linode_instance == false
