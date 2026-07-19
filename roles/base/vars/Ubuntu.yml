@@ -18,7 +18,7 @@ ruby_rake_package: rake
 sftp_path: /usr/lib/openssh/sftp-server
 sudo_group: sudo
 vim_package: vim-nox
-neofetch_package: fastfetch
+neofetch_package: "{{ (lookup('ansible.builtin.pipe', 'which fastfetch', errors='ignore')) and 'fastfetch' or 'neofetch' }}"
 target_username: brootware
 target_user_home: /home/brootware
 target_group: brootware
