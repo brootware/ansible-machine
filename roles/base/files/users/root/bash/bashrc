@@ -1,5 +1,5 @@
 # Current PS1:
-tty -s && export PS1="[\[$(tput sgr0)\]\[\033[38;5;1m\]\u\[$(tput sgr0)\]\[\033[38;5;35m\]@\h:\W]\\$ \[$(tput sgr0)\]\n${C35}╰──💣"
+tty -s && export PS1="[\[$(tput sgr0)\]\[\033[38;5;1m\]\u\[$(tput sgr0)\]\[\033[38;5;35m\]@\h:\W]\\$ \[$(tput sgr0)\]\n${C35}╰──💣 "
 
 # Env
 export TERM=xterm-256color
