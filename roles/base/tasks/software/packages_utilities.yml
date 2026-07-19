@@ -14,7 +14,6 @@
       - mc
       - mosh
       - ncdu
-      - "{{ neofetch_package }}"
       - net-tools
       - "{{ nfs_client_package }}"
       - nmap
@@ -29,3 +28,4 @@
       - wget
       - whois
       - zsh
+      - "{{ neofetch_package }}"
