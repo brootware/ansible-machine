@@ -1,5 +1,6 @@
 - name: system setup | utilities | install utility packages
   tags: packages,system,settings
+  ignore_errors: true
   package:
     state: latest
     name:
@@ -29,3 +30,4 @@
       - whois
       - zsh
       - "{{ neofetch_package }}"
+  
