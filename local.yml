@@ -51,6 +51,7 @@
     tags: always
     when:
       - task_failed is not defined
+    ignore_errors: true
 
   - name: send failure alert
     include_tasks: playbooks/send_failure_alert.yml
@@ -58,4 +59,5 @@
     when:
       - task_failed is defined
       - task_failed == true
+    ignore_errors: true
 
