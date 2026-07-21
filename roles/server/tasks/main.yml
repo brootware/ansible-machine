@@ -5,6 +5,7 @@
 - block:
   # - import_tasks: ufw.yml
   - import_tasks: qemu-agent.yml
+  - import_tasks: spice-vdagent.yml
 
   - include_tasks: unattended_upgrades.yml
     when:
