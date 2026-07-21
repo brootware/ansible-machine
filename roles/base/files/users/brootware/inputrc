@@ -1,2 +1,3 @@
 # Disable the annoying terminal beep
 set bell-style none
+set completion-ignore-case on
