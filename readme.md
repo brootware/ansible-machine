@@ -44,6 +44,12 @@ curl https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main
 ./bootstrap.sh -h
 ```
 
+Once you're done, remove the earlier suoders file you created.
+
+```bash
+sudo rm -f /etc/sudoers.d/dont-prompt-$USER-for-sudo-password
+```
+
 ## 1 script install (Windows)
 
 ```bash
