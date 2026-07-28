@@ -13,6 +13,12 @@ pipx install --include-deps ansible
 pipx ensurepath
 ```
 
+If you are on ubuntu 26, add yourself to no passwd suoders.
+
+```bash
+echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dont-prompt-$USER-for-sudo-password
+```
+
 Define your hostname under [hosts.yml](hosts.yml) locally, together with the variables.
 
 ```yml
