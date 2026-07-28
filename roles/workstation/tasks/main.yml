@@ -25,3 +25,5 @@
   
   - import_tasks: software/snap_packages.yml
     when: ansible_facts.distribution == 'Ubuntu'
+  - import_tasks: software/gnome_packages.yml
+    when: ansible_facts.distribution == 'Debian'
