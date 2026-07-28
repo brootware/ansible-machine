@@ -42,16 +42,9 @@ install_deps_debian() {
     pipx install --include-deps ansible
     pipx ensurepath
 
-    pipx inject ansible passlib
-
-    if [[ -n "$CI" ]]; then
-        echo ">>> [CI] Setting root password non-interactively..."
-        echo "$BECOME_PASS" | sudo -S sh -c "echo 'root:$BECOME_PASS' | chpasswd"
-    else
-        echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
-        echo "Please enter a new password for the root user."
-        sudo passwd root
-    fi
+    echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
+    echo "Please enter a new password for the root user."
+    sudo passwd root
 }
 
 install_galaxy_collections() {
@@ -84,26 +77,16 @@ run_ansible_full() {
     install_galaxy_collections
 
     echo ">>> Running ansible-pull..."
-    if [[ -n "$CI" ]]; then
-        echo ">>> [CI] Running ansible-pull non-interactively..."
-        echo "$BECOME_PASS" | ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=${BROOTWARE_PASSWD}"
-    else
-        # The -U flag handles both cloning for the first time and updating on subsequent runs.
-        ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
-    fi
+    # The -U flag handles both cloning for the first time and updating on subsequent runs.
+    ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
 }
 
 run_ansible_mac() {
     echo ">>> Running Ansible for macOS setup..."
     install_galaxy_collections
     verify_host_in_inventory
-    if [[ -n "$CI" ]]; then
-        echo ">>> [CI] Running ansible-pull for mac non-interactively..."
-        echo "$BECOME_PASS" | ansible-pull -U "$ANSIBLE_REPO" -K --tags "mac" -vv
-    else
-        # The -K flag will prompt for the sudo password.
-        ansible-pull -U "$ANSIBLE_REPO" -K --tags "mac" -vv
-    fi
+    # The -K flag will prompt for the sudo password.
+    ansible-pull -U "$ANSIBLE_REPO" -K --tags "mac" -vv
 }
 
 run_ansible_dotfiles() {
@@ -111,23 +94,18 @@ run_ansible_dotfiles() {
     verify_host_in_inventory
     echo ">>> Running Ansible for dotfiles setup..."
 
-    if [[ -n "$CI" ]]; then
-        echo ">>> [CI] Setting root password and using environment variables..."
-        echo "$BECOME_PASS" | sudo -S sh -c "echo 'root:$BECOME_PASS' | chpasswd"
-    else
-        echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
-        echo "Please enter a new password for the root user."
-        sudo passwd root
-        read -rp "Enter target username: " target_username
-        read -rp "Enter target group name (default: ${target_username}): " target_group
-        read -rp "Enter target user home directory (default: /home/${target_username}): " target_user_home
-    fi
+    echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
+    echo "Please enter a new password for the root user."
+    sudo passwd root
+    read -rp "Enter target username: " target_username
+    read -rp "Enter target group name (default: ${target_username}): " target_group
+    read -rp "Enter target user home directory (default: /home/${target_username}): " target_user_home
 
     # Use defaults for group and home if not provided
     target_group=${target_group:-$target_username}
     target_user_home=${target_user_home:-/home/$target_username}
 
-    echo "$BECOME_PASS" | ansible-pull -U "$ANSIBLE_REPO" -K --tags "onlydotfiles" \
+    ansible-pull -U "$ANSIBLE_REPO" -K --tags "onlydotfiles" \
         -e "target_username=${target_username}" \
         -e "target_group=${target_group}" \
         -e "target_user_home=${target_user_home}"
