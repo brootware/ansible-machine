@@ -41,6 +41,7 @@ install_deps_debian() {
     echo ">>> Installing Ansible with pipx..."
     pipx install --include-deps ansible
     pipx ensurepath
+    pipx inject ansible passlib
 
     echo ">>> Setting root password (required for 'su' method BECOME password prompt)..."
     echo "Please enter a new password for the root user."
