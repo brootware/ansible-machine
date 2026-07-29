@@ -1,18 +1,26 @@
 - block:
-  - name: send failure notification via telegram
-    tags: always
-    community.general.telegram:
-      token: "{{ telegram_token }}"
-      chat_id: "{{ telegram_chat_id }}"
-      msg_format: markdown
-      msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
-        *Task*:  {{ ansible_failed_task.name }}\n
-        *Action*: {{ ansible_failed_task.action }}\n
-        *Error Message*: \n ```{{ ansible_failed_result | to_nice_json }}```"
-    changed_when: false
+    - name: send failure notification via telegram
+      tags: always
+      community.general.telegram:
+        token: "{{ telegram_token }}"
+        chat_id: "{{ telegram_chat_id }}"
+        msg_format: markdown
+        msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
+          *Task*:  {{ ansible_failed_task.name | default('Unknown Task') }}\n
+          *Action*: {{ ansible_failed_task.action | default('Unknown Action') }}\n
+          *Error Message*: \n ```{{ ansible_failed_result | default({}) | to_nice_json }}```"
+      changed_when: false
+      ignore_errors: true
+      when:
+        - telegram_token is defined
+        - telegram_token != "<telegram_token_here>"
+        - telegram_token != ""
+        - telegram_chat_id is defined
+        - telegram_chat_id != "<telegram_chat_id_here>"
+        - telegram_chat_id != ""
 
   rescue:
-    - name: send failure notification via telegram
+    - name: send failure notification via telegram (fallback)
       tags: always
       community.general.telegram:
         token: "{{ telegram_token }}"
@@ -21,10 +29,20 @@
         msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
           The specific error couldn't be shown, check the log."
       changed_when: false
+      ignore_errors: true
+      when:
+        - telegram_token is defined
+        - telegram_token != "<telegram_token_here>"
+        - telegram_token != ""
+        - telegram_chat_id is defined
+        - telegram_chat_id != "<telegram_chat_id_here>"
+        - telegram_chat_id != ""
 
 - name: ansible job failed, clear cache later on to trigger another provision run
-  become: yes
+  become: true
   community.general.at:
-    command: "if ! pgrep -f ansible-pull >/dev/null; then rm -rf {{ target_user_home }}/.ansible; fi"
+    command: "if ! pgrep -f ansible-pull >/dev/null; then rm -rf {{ target_user_home | default('/root') }}/.ansible; fi"
     count: 60
     units: minutes
+  ignore_errors: true
+  when: ansible_facts.os_family != 'Darwin'

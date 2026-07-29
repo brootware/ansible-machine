@@ -1,8 +1,12 @@
 - name: notify healthchecks.io that the job ran
   ansible.builtin.uri:
-    url: https://hc-ping.com/{{ healthcheck_uuid }}
+    url: "https://hc-ping.com/{{ healthcheck_uuid }}"
   changed_when: false
-  when: healthcheck_uuid is defined
+  ignore_errors: true
+  when:
+    - healthcheck_uuid is defined
+    - healthcheck_uuid != "<uuid_here>"
+    - healthcheck_uuid != ""
 
 - name: send completion notification via telegram
   tags: always
@@ -12,4 +16,11 @@
     msg_format: markdown
     msg: "✔️  Ansible provision finished on *{{ ansible_hostname }}*"
   changed_when: false
-
+  ignore_errors: true
+  when:
+    - telegram_token is defined
+    - telegram_token != "<telegram_token_here>"
+    - telegram_token != ""
+    - telegram_chat_id is defined
+    - telegram_chat_id != "<telegram_chat_id_here>"
+    - telegram_chat_id != ""
