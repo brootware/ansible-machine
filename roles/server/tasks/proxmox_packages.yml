@@ -10,12 +10,13 @@
     - restart_qemu_agent
     - restart_spice_vdagent
 
-- name: Proxmox packages | enable qemu agent daemon
+- name: Proxmox packages | enable and start daemons
   tags: packages,qemu,qemu-agent,spice,spice-agent,proxmox
   service:
-    name: 
-      - qemu-guest-agent
-      - spice-vdagent
+    name: "{{ item }}"
     enabled: yes
     state: started
+  loop:
+    - qemu-guest-agent
+    - spice-vdagent
   when: proxmox_instance is defined and proxmox_instance == true

@@ -10,8 +10,7 @@
 
 - name: Server management packages | enable service daemon
   service:
-    name: 
-      - cockpit
+    name: cockpit
     enabled: yes
     state: started
   when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
