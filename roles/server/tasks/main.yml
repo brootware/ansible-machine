@@ -5,7 +5,7 @@
 - block:
   # - import_tasks: ufw.yml
   - import_tasks: proxmox_packages.yml
-
+  - import_tasks: server_packages.yml
   - include_tasks: unattended_upgrades.yml
     when:
       - ansible_facts.distribution in ["Debian", "Ubuntu"]
