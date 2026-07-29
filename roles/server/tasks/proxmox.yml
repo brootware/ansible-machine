@@ -1,0 +1,21 @@
+- name: Proxmox packages | install package
+  tags: packages,qemu,qemu-agent,spice,spice-agent,proxmox
+  package:
+    state: latest
+    name:
+      - qemu-guest-agent
+      - spice-vdagent
+  when: proxmox_instance is defined and proxmox_instance == true
+  notify:
+    - restart_qemu_agent
+    - restart_spice_vdagent
+
+- name: Proxmox packages | enable qemu agent daemon
+  tags: packages,qemu,qemu-agent,spice,spice-agent,proxmox
+  service:
+    name: 
+      - qemu-guest-agent
+      - spice-vdagent
+    enabled: yes
+    state: started
+  when: proxmox_instance is defined and proxmox_instance == true

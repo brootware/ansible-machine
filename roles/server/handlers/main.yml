@@ -2,13 +2,19 @@
 - name: restart_qemu_agent
   tags: qemu,qemu-agent
   service:
-    name: "{{ qemu_agent_service }}"
+    name: qemu-guest-agent
     state: restarted
 
 - name: restart_spice_vdagent
   tags: spice-vdagent
   service:
     name: spice-vdagent
+    state: restarted
+
+- name: restart_cockpit_service
+  tags: cockpit
+  service:
+    name: cockpit
     state: restarted
 
 - name: restart_ufw

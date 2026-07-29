@@ -1,0 +1,17 @@
+- name: Server management packages | install package
+  tags: packages,Server management packages
+  package:
+    state: latest
+    name:
+      - cockpit
+  when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
+  notify:
+    - restart_cockpit_service
+
+- name: Server management packages | enable service daemon
+  service:
+    name: 
+      - cockpit
+    enabled: yes
+    state: started
+  when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
