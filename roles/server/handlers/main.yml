@@ -1,24 +1,24 @@
 ---
 - name: restart_qemu_agent
   tags: qemu,qemu-agent
-  service:
+  ansible.builtin.service:
     name: qemu-guest-agent
     state: restarted
 
 - name: restart_spice_vdagent
   tags: spice-vdagent
-  service:
+  ansible.builtin.service:
     name: spice-vdagent
     state: restarted
 
 - name: restart_cockpit_service
   tags: cockpit
-  service:
+  ansible.builtin.service:
     name: cockpit
     state: restarted
 
 - name: restart_ufw
   tags: ufw
-  service:
+  ansible.builtin.service:
     name: ufw
     state: restarted

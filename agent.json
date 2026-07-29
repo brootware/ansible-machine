@@ -1,0 +1,7 @@
+{
+    "name": "ansible-machine-agent",
+    "version": "1.0.0",
+    "skills": [
+    "ansible-skills"
+  ]
+}

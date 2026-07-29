@@ -1,12 +1,12 @@
 - name: users | workstation | create personal config directories
   tags: onlydotfiles,mac,tmux,users,vim,zsh
-  file:
+  ansible.builtin.file:
     path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0700
-  with_items:
+    mode: "0700"
+  loop:
     - { dir: .config }
     - { dir: .config/bpytop }
     - { dir: .config/gtk-3.0 }
@@ -18,12 +18,12 @@
 
 - name: users | workstation | copy personal config files
   tags: onlydotfiles,mac,tmux,users,vim,zsh
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/{{ item.src }}
     dest: "{{ target_user_home }}/{{ item.dest }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
-  with_items:
+    mode: "0600"
+  loop:
     - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
     - { src: 'ssh_client_config', dest: '.ssh/config' }

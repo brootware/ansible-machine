@@ -1,16 +1,17 @@
 # Load distro-specific variables
-- include_vars: "{{ ansible_facts.distribution }}.yml"
+- ansible.builtin.include_vars: "{{ ansible_facts.distribution }}.yml"
   tags: always
 
 - block:
-  # - import_tasks: ufw.yml
-  - import_tasks: proxmox_packages.yml
-  - import_tasks: server_packages.yml
-  - include_tasks: unattended_upgrades.yml
-    when:
-      - ansible_facts.distribution in ["Debian", "Ubuntu"]
-      - unattended_upgrades is defined
-      - unattended_upgrades == true
+    # - ansible.builtin.import_tasks: ufw.yml
+    - ansible.builtin.import_tasks: proxmox_packages.yml
+    - ansible.builtin.import_tasks: server_packages.yml
+    - ansible.builtin.include_tasks: unattended_upgrades.yml
+      when:
+        - ansible_facts.distribution in ["Debian", "Ubuntu"]
+        - unattended_upgrades is defined
+        - unattended_upgrades == true
 
   rescue:
-    - set_fact: task_failed=true
+    - ansible.builtin.set_fact:
+        task_failed: true

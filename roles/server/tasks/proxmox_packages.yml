@@ -1,6 +1,6 @@
 - name: Proxmox packages | install package
   tags: packages,qemu,qemu-agent,spice,spice-agent,proxmox
-  package:
+  ansible.builtin.package:
     state: latest
     name:
       - qemu-guest-agent
@@ -12,9 +12,9 @@
 
 - name: Proxmox packages | enable and start daemons
   tags: packages,qemu,qemu-agent,spice,spice-agent,proxmox
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: true
     state: started
   loop:
     - qemu-guest-agent

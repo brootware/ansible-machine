@@ -1,17 +1,17 @@
 - name: system setup | repositories | add ignored packages for archlinux hosts
   tags: packages,repositories
-  lineinfile:
-      dest: /etc/pacman.conf
-      regexp: "^#?IgnorePkg"
-      line: "IgnorePkg   = ansible linux linux-headers linux-lts linux-lts-headers"
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: "^#?IgnorePkg"
+    line: "IgnorePkg   = ansible linux linux-headers linux-lts linux-lts-headers"
   when: ansible_facts.distribution == "Archlinux"
 
 - name: system setup | repositories | add sources.list for debian hosts
   tags: non-free,repositories
-  copy:
+  ansible.builtin.copy:
     src: distribution_packages/debian_sources.list
     dest: /etc/apt/sources.list
-    backup: yes
+    backup: true
   notify: apt_update
   when: ansible_facts.distribution == "Debian"
 
@@ -25,7 +25,7 @@
 
 - name: system setup | repositories | install package management tools (debian-based)
   tags: packages,system,settings
-  package:
+  ansible.builtin.package:
     name:
       - aptitude
       - software-properties-common

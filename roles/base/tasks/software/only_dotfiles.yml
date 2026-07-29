@@ -1,25 +1,25 @@
 - name: only dotfiles setup | create .ssh directory
   tags: onlydotfiles,mac,ssh,users
-  file:
+  ansible.builtin.file:
     path: "{{ item.dir }}"
     state: directory
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0700
-  with_items:
+    mode: "0700"
+  loop:
     - { dir: '{{ target_user_home }}/.ssh' }
   become: true
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | create config directories
   tags: onlydotfiles,mac,tmux,users,vim,zsh
-  file:
+  ansible.builtin.file:
     path: "{{ target_user_home }}/{{ item.dir }}"
     state: directory
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0700
-  with_items:
+    mode: "0700"
+  loop:
     - { dir: '.bash' }
     - { dir: '.config' }
     - { dir: '.config/htop' }
@@ -38,55 +38,55 @@
 
 - name: only dotfiles setup | copy tmux config (server version)
   tags: onlydotfiles,mac,tmux,users,vim,zsh
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/tmux/tmux.conf.server
     dest: "{{ target_user_home }}/.tmux.conf"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
+    mode: "0600"
   when: "'server' not in group_names"
   become: true
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-completion plugin repository
   tags: onlydotfiles,mac,users,tmux
-  git:
+  ansible.builtin.git:
     repo: https://github.com/srsudar/tmux-completion.git
     dest: "{{ target_user_home }}/.tmux/plugins/completion"
-    force: yes
+    force: true
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-continuum plugin repository
   tags: onlydotfiles,mac,users,tmux
-  git:
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tmux-continuum
     dest: "{{ target_user_home }}/.tmux/plugins/continuum"
-    force: yes
+    force: true
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | clone tmux-resurrect plugin repository
   tags: onlydotfiles,mac,users,tmux
-  git:
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tmux-resurrect
     dest: "{{ target_user_home }}/.tmux/plugins/resurrect"
-    force: yes
+    force: true
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
 
 - name: only dotfiles setup | copy dotfiles
   tags: onlydotfiles,mac,tmux,users,vim,zsh
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/{{ item.src }}
     dest: "{{ target_user_home }}/{{ item.dest }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
-  with_items:
+    mode: "0600"
+  loop:
     - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
     - { src: 'bash/bash_profile', dest: '.bash_profile' }
     - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
@@ -104,13 +104,13 @@
 
 - name: only dotfiles setup | copy individual zsh config files
   tags: onlydotfiles,mac,users,zsh
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/zsh/{{ item.src }}
     dest: "{{ target_user_home }}/.zsh/{{ item.src }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
-  with_items:
+    mode: "0600"
+  loop:
     - { src: 'aliases.zsh' }
     - { src: 'bindkey.zsh' }
     - { src: 'completion.zsh' }
@@ -127,13 +127,13 @@
 
 - name: only dotfiles setup | copy vim ftype files
   tags: onlydotfiles,mac,users,vim
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/ftplugin/{{ item.src }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
-  with_items:
+    mode: "0600"
+  loop:
     - { src: 'cmake.vim' }
     - { src: 'cpp.vim' }
     - { src: 'html.vim' }
@@ -145,13 +145,13 @@
 
 - name: only dotfiles setup | copy vim color files
   tags: onlydotfiles,mac,users,vim
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ target_user_home }}/.vim/colors/{{ item.src }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0600
-  with_items:
+    mode: "0600"
+  loop:
     - { src: 'bubblegum-256-dark.vim' }
     - { src: 'darktango.vim' }
     - { src: 'jellybeans.vim' }
@@ -162,26 +162,25 @@
 
 - name: only dotfiles setup | install pathogen
   tags: onlydotfiles,mac,users,vim
-  copy:
+  ansible.builtin.copy:
     src: users/brootware/vim/{{ item.src }}
     dest: "{{ item.dest }}"
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0700
-  with_items:
+    mode: "0700"
+  loop:
     - { src: 'pathogen.vim', dest: '{{ target_user_home }}/.vim/autoload/pathogen.vim' }
   become: true
   become_user: "{{ target_username }}"
 
-
 - name: only dotfiles setup | checkout git repositories for vim plugins
   tags: onlydotfiles,git,mac,users,vim
   become: true
-  git:
+  ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
-    force: yes
-  with_items:
+    force: true
+  loop:
     - { repo: 'https://github.com/ctrlpvim/ctrlp.vim.git', dest: '{{ target_user_home }}/.vim/bundle/ctrlp.vim' }
     - { repo: 'https://github.com/davidhalter/jedi-vim.git', dest: '{{ target_user_home }}/.vim/bundle/jedi-vim' }
     - { repo: 'https://github.com/pearofducks/ansible-vim', dest: '{{ target_user_home }}/.vim/bundle/ansible-vim' }
@@ -195,40 +194,40 @@
 
 - name: only dotfiles ansible setup | create ansible log file
   tags: ansible,ansible-setup,onlydotfiles,mac
-  file:
+  ansible.builtin.file:
     path: /var/log/ansible.log
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0664
+    mode: "0664"
     state: touch
-  changed_when: False
+  changed_when: false
   ignore_errors: true
 
 - name: only dotfiles ansible setup | for Linux | add logrotate config for ansible log file
   tags: onlydotfiles
-  copy:
+  ansible.builtin.copy:
     src: files/ansible_setup/logrotate
     dest: /etc/logrotate.d/ansible
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
 - name: only dotfiles ansible setup | for Mac | add newsyslog config for ansible log file
   tags: onlydotfiles,mac
-  copy:
+  ansible.builtin.copy:
     src: files/ansible_setup/logrotate
     dest: /etc/newsyslog.d/ansible
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0644
+    mode: "0644"
   when: ansible_facts.distribution in ["MacOSX","Darwin"]
 
 - name: only dotfiles ansible setup | generate provision script from template
   tags: ansible,ansible-setup,scripts,onlydotfiles,mac
-  template:
+  ansible.builtin.template:
     src: provision.sh.j2
     dest: /usr/local/bin/provision
     owner: "{{ target_username }}"
     group: "{{ target_group }}"
-    mode: 0755
+    mode: "0755"

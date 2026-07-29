@@ -11,9 +11,9 @@
     mode: '0644'
 
 - name: Brave Browser | update package cache (debian, etc)
-  apt: update_cache=yes
+  ansible.builtin.apt:
+    update_cache: true
   changed_when: false
-
 
 - name: Install brave browser package and enable 2 fingers swipe back and forth gesture.
   become: true
@@ -26,7 +26,7 @@
         cache_valid_time: 86400
 
     - name: Brave Browser | Replace line in brave-browser.desktop file to enable 2 fingers swipe back and forth gesture. https://gist.github.com/detherminal/1845c794ee3f3cdcc4e7eb713e9ee6fd
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /usr/share/applications/brave-browser.desktop
         regexp: '^Exec=/usr/bin/brave-browser-stable %U$'
         line: 'Exec=/usr/bin/brave-browser-stable %U --ozone-platform=wayland --enable-features=TouchpadOverscrollHistoryNavigation'

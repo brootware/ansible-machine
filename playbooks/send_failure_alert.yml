@@ -1,7 +1,7 @@
 - block:
   - name: send failure notification via telegram
     tags: always
-    telegram:
+    community.general.telegram:
       token: "{{ telegram_token }}"
       chat_id: "{{ telegram_chat_id }}"
       msg_format: markdown
@@ -9,22 +9,22 @@
         *Task*:  {{ ansible_failed_task.name }}\n
         *Action*: {{ ansible_failed_task.action }}\n
         *Error Message*: \n ```{{ ansible_failed_result | to_nice_json }}```"
-    changed_when: False
+    changed_when: false
 
   rescue:
     - name: send failure notification via telegram
       tags: always
-      telegram:
+      community.general.telegram:
         token: "{{ telegram_token }}"
         chat_id: "{{ telegram_chat_id }}"
         msg_format: markdown
         msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
           The specific error couldn't be shown, check the log."
-      changed_when: False
+      changed_when: false
 
 - name: ansible job failed, clear cache later on to trigger another provision run
   become: yes
-  at:
+  community.general.at:
     command: "if ! pgrep -f ansible-pull >/dev/null; then rm -rf {{ target_user_home }}/.ansible; fi"
     count: 60
     units: minutes

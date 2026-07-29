@@ -1,6 +1,6 @@
 - name: Server management packages | install package
   tags: packages,Server management packages
-  package:
+  ansible.builtin.package:
     state: latest
     name:
       - cockpit
@@ -9,8 +9,8 @@
     - restart_cockpit_service
 
 - name: Server management packages | enable service daemon
-  service:
+  ansible.builtin.service:
     name: cockpit
-    enabled: yes
+    enabled: true
     state: started
   when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]

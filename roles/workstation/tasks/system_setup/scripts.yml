@@ -1,8 +1,8 @@
 - name: system setup | scripts | copy test.sh script
   tags: distro-setup
-  copy:
+  ansible.builtin.copy:
     src: scripts/test.sh
     dest: /usr/local/bin/test.sh
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"

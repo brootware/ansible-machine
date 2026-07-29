@@ -3,8 +3,8 @@
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/{{ item.plugin }}.git"
     dest: "{{ target_user_home }}/.oh-my-zsh/custom/plugins/{{ item.plugin }}"
-    clone: yes
-  with_items: 
+    clone: true
+  loop:
     - { plugin: 'zsh-autosuggestions' }
     - { plugin: 'zsh-completions' }
   become: true

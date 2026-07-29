@@ -5,7 +5,8 @@
   pre_tasks:
     - name: pre-run | update package cache (debian, etc)
       tags: always
-      apt: update_cache=yes
+      ansible.builtin.apt:
+        update_cache: true
       changed_when: false
       when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
@@ -34,28 +35,29 @@
   tasks:
   - name: cleanup package cache (debian and ubuntu)
     tags: always
-    apt:
-      autoclean: yes
+    ansible.builtin.apt:
+      autoclean: true
     changed_when: false
     when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
   - name: autoremove orphan packages (debian and ubuntu)
     tags: always
-    apt:
-      autoremove: yes
-      purge: yes
+    ansible.builtin.apt:
+      autoremove: true
+      purge: true
     when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
   - name: send completion alert
-    include_tasks: playbooks/send_completion_alert.yml
+    ansible.builtin.include_tasks: playbooks/send_completion_alert.yml
     tags: always
     when:
       - task_failed is not defined
 
   - name: send failure alert
-    include_tasks: playbooks/send_failure_alert.yml
+    ansible.builtin.include_tasks: playbooks/send_failure_alert.yml
     tags: always
     when:
       - task_failed is defined
       - task_failed == true
+
 

@@ -1,6 +1,6 @@
 - name: users | goodegg | create user
   tags: goodegg,sudo,users
-  user:
+  ansible.builtin.user:
     name: goodegg
     group: brootware
     groups: adm,ansible,{{ sudo_group }}
@@ -11,17 +11,17 @@
 
 - name: users | goodegg | add public key
   tags: dotfiles,goodegg,ssh,ssh-keys,users
-  authorized_key:
+  ansible.posix.authorized_key:
     user: goodegg
     key: "{{ item }}"
-  with_file:
-    - users/goodegg/ssh/goodegg_id_ed25519.pub
+  loop:
+    - "{{ lookup('file', 'users/goodegg/ssh/goodegg_id_ed25519.pub') }}"
 
 - name: users | goodegg | add sudoers file
   tags: settings,goodegg,sudo,system,users
-  copy:
+  ansible.builtin.copy:
     src: users/sudoers_goodegg
     dest: /etc/sudoers.d/goodegg
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"

@@ -1,29 +1,24 @@
 ---
 # Load distro-specific variables
-- include_vars: "{{ ansible_facts.distribution }}.yml"
+- ansible.builtin.include_vars: "{{ ansible_facts.distribution }}.yml"
   tags: always
 
 - block:
-  ## User configs
-  - import_tasks: users/brootware.yml
+    ## User configs
+    - ansible.builtin.import_tasks: users/brootware.yml
 
+    ## desktop environments
+    - ansible.builtin.include_tasks: desktop_environments/gnome/nautilus.yml
+      when: gnome is defined and gnome == true
 
-## desktop environments
-  # - include_tasks: desktop_environments/mate/appearance.yml
-  #   when: mate is defined and mate == true
+    ## system setup
+    - ansible.builtin.import_tasks: system_setup/scripts.yml
 
-  - include_tasks: desktop_environments/gnome/nautilus.yml
-    when: gnome is defined and gnome == true
+    ## install software
+    - ansible.builtin.import_tasks: software/brave_browser.yml
 
+    - ansible.builtin.import_tasks: software/snap_packages.yml
+      when: ansible_facts.distribution == 'Ubuntu'
 
-
-  ## system setup
-  - import_tasks: system_setup/scripts.yml  
-
-  ## install software
-  - import_tasks: software/brave_browser.yml
-  
-  - import_tasks: software/snap_packages.yml
-    when: ansible_facts.distribution == 'Ubuntu'
-  - import_tasks: software/gnome_packages.yml
-    when: ansible_facts.distribution == 'Debian' or ansible_facts.distribution == 'Ubuntu'
+    - ansible.builtin.import_tasks: software/gnome_packages.yml
+      when: ansible_facts.distribution == 'Debian' or ansible_facts.distribution == 'Ubuntu'

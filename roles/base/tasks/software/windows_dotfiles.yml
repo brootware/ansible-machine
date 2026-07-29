@@ -9,12 +9,11 @@
   ansible.windows.win_copy:
     src: '{{ item }}'
     dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\config\{{ item | basename }}'
-  with_fileglob:
-    - "files/config/*.ps1"
+  loop: "{{ query('fileglob', 'files/config/*.ps1') }}"
 
 - name: windows dotfiles | Deploy the main PowerShell Profile
   tags: windows,powershell
   ansible.windows.win_copy:
     src: files/windows/Microsoft.PowerShell_profile.ps1
     dest: '{{ ansible_env.USERPROFILE }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
-    force: yes
+    force: true
