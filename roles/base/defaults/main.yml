@@ -1,0 +1,28 @@
+---
+# defaults file for roles/base
+target_username: "brootware"
+target_group: "brootware"
+target_user_home: "/home/brootware"
+sudo_group: "sudo"
+swappiness_value: 5
+ansible_cron_hour: "*"
+ansible_cron_minute: "*/30"
+microcode_amd_install: false
+microcode_intel_install: false
+openssh_package: "openssh-server"
+openssh_service: "ssh"
+cron_package: "cron"
+dconf_package: "dconf-cli"
+dns_utils_package: "dnsutils"
+lm_sensors_package: "lm-sensors"
+nfs_client_package: "nfs-common"
+python_package: "python3"
+python_pip_package: "python3-pip"
+python_psutil_package: "python3-psutil"
+python_flake8_package: "python3-flake8"
+python_pyflakes_package: "python3-pyflakes"
+python_virtualenv_package: "python3-virtualenv"
+rename_package: "rename"
+ruby_rake_package: "rake"
+vim_package: "vim-nox"
+neofetch_package: "neofetch"

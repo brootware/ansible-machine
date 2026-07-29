@@ -1,0 +1,9 @@
+---
+# defaults file for roles/workstation
+gnome: false
+mate: false
+cinnamon: false
+snaps: []
+target_username: "brootware"
+target_group: "brootware"
+target_user_home: "/home/brootware"
