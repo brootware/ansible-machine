@@ -22,9 +22,7 @@
   roles:
     - workstation
 
-- hosts: 
-    - server
-    - proxmox
+- hosts: [server, proxmoxhosts]
   tags: server
   become: true
   roles:
