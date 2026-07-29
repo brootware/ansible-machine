@@ -6,6 +6,20 @@
   notify:
     - restart_ufw
 
+
+# cockpit
+- name: ufw | cockpit | allow 9090 for cockpit (tcp)
+  tags: ufw
+  ufw:
+    comment: cockpit
+    rule: allow
+    port: '9090'
+    proto: tcp
+  when:
+    - cockpit is defined
+    - cockpit == true
+    - ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
+
 # dns
 - name: ufw | dns | allow dns (tcp)
   tags: ufw
