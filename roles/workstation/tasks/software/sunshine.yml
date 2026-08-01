@@ -2,7 +2,7 @@
 
 - name: Download Sunshine .deb package
   ansible.builtin.get_url:
-    url: "https://github.com/LizardByte/Sunshine/releases/latest/download/{{ sunshine_deb_name }}"
+    url: "https://github.com/LizardByte/Sunshine/releases/latest/download/{{ sunshine_package_name }}"
     dest: "{{ sunshine_download_path }}"
     mode: '0644'
 
