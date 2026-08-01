@@ -1,10 +1,11 @@
 # should be located at ~/.config/systemd/user/sunshine.service
 [Unit]
-Description=Sunshine is a self-hosted game stream host for Moonlight.
-StartLimitIntervalSec=500
-StartLimitBurst=5
+Description=Sunshine self-hosted game stream host for Moonlight
+After=graphical-session.target
+Requisite=graphical-session.target
 
 [Service]
+Type=simple
 ExecStart=/usr/bin/sunshine
 Restart=on-failure
 RestartSec=5s
