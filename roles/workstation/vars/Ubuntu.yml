@@ -34,3 +34,5 @@ snaps:
   - telegram-desktop
   - signal-desktop
   - foliate
+sunshine_deb_name: "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-ubuntu-{{ ubuntu_version }}-amd64.deb"
+sunshine_download_path: "/tmp/sunshine.deb"
