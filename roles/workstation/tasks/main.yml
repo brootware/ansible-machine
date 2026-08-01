@@ -17,6 +17,7 @@
     ## install software
     - ansible.builtin.import_tasks: software/brave_browser.yml
     - ansible.builtin.import_tasks: software/steam.yml
+    - ansible.builtin.import_tasks: software/sunshine.yml
     - ansible.builtin.import_tasks: software/snap_packages.yml
       when: ansible_facts.distribution == 'Ubuntu'
 
