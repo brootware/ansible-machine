@@ -29,8 +29,8 @@
     mode: '0644'
 
 - name: Enable and start Sunshine user service
-  ansible.builtin.systemd_user:
+  ansible.builtin.systemd:
     name: sunshine
-    enabled: true
     state: started
-    daemon_reload: true
+    enabled: true
+    scope: user
