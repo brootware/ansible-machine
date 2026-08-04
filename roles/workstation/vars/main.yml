@@ -1,3 +1,2 @@
-#SPDX-License-Identifier: MIT-0
----
-# vars file for roles/workstation
+sunshine_package_name: "sunshine-ubuntu-26.04-amd64.deb"
+sunshine_download_path: "/tmp/sunshine.deb"
