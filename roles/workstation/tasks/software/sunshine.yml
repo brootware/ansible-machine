@@ -18,14 +18,18 @@
 
 - name: Create user systemd directory
   ansible.builtin.file:
-    path: "{{ ansible_facts.env.HOME }}/.config/systemd/user"
+    path: "{{ target_user_home }}/.config/systemd/user"
     state: directory
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: '0755'
 
 - name: Copy Sunshine systemd service file
   ansible.builtin.copy:
     src: sunshine.service
-    dest: "{{ ansible_facts.env.HOME }}/.config/systemd/user/sunshine.service"
+    dest: "{{ target_user_home }}/.config/systemd/user/sunshine.service"
+    owner: "{{ target_username }}"
+    group: "{{ target_group }}"
     mode: '0644'
 
 - name: Enable and start Sunshine user service
