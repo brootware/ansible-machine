@@ -3,10 +3,10 @@
 - name: steam | add multiarch (debian, ubuntu)
   tags: steam,steam,multiarch
   lineinfile:
-      dest: /var/lib/dpkg/arch
-      regexp: "^i386"
-      line: "i386"
-      create: true
+    dest: /var/lib/dpkg/arch
+    regexp: "^i386"
+    line: "i386"
+    create: true
   when:
     - ansible_facts.distribution in ['Debian', 'Ubuntu']
     - steam is defined
@@ -15,7 +15,7 @@
 # For Debian and Ubuntu, set up acceptance of steam license before continuing
 - name: software | steam | accept license
   tags: gaming,steam
-  debconf:
+  ansible.builtin.debconf:
     name: "steam"
     question: "steam/question"
     value: "I AGREE"
@@ -27,7 +27,7 @@
 
 - name: software | steam | install package
   tags: steam,steam
-  package:
+  ansible.builtin.package:
     state: latest
     name: "{{ steam_package }}"
   when:
@@ -36,7 +36,7 @@
 
 - name: software | steam | install steam-devices package (debian, ubuntu, etc)
   tags: steam,steam
-  package:
+  ansible.builtin.package:
     state: latest
     name: steam-devices
   when:
@@ -46,7 +46,7 @@
 
 - name: install vulkan drivers (debian, ubuntu, etc)
   tags: drivers,steam
-  package:
+  ansible.builtin.package:
     state: latest
     name: mesa-vulkan-drivers
   when:
