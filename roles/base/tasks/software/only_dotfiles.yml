@@ -200,8 +200,7 @@
     group: "{{ target_group }}"
     mode: "0664"
     state: touch
-  changed_when: false
-  ignore_errors: true
+  become: true
 
 - name: only dotfiles ansible setup | for Linux | add logrotate config for ansible log file
   tags: onlydotfiles
