@@ -77,9 +77,23 @@ run_ansible_full() {
     verify_host_in_inventory
     install_galaxy_collections
 
+    read -rp "Enter target username: " target_username
+    read -rp "Enter target group name (default: ${target_username}): " target_group
+    read -rp "Enter target user home directory (default: /home/${target_username}): " target_user_home
+    read -rp "Enter password for: (default: ${target_username}): " user_passwd
+
+    # Use defaults for group and home if not provided
+    target_group=${target_group:-$target_username}
+    target_user_home=${target_user_home:-/home/$target_username}
+
     echo ">>> Running ansible-pull..."
     # The -U flag handles both cloning for the first time and updating on subsequent runs.
-    ansible-pull -U "$ANSIBLE_REPO" --purge -K -e "user_passwd=$(read -sp 'Enter password for brootware user: ' p && echo "$p")"
+    ansible-pull -U "$ANSIBLE_REPO" --purge -K \
+        -e "target_username=${target_username}" \
+        -e "user_passwd" \
+        -e "target_group=${target_group}" \
+        -e "target_user_home=${target_user_home}"
+
 }
 
 run_ansible_mac() {
