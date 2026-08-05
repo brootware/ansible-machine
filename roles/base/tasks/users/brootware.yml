@@ -4,14 +4,14 @@
     name: "{{ item.group }}"
     state: present
   loop:
-    - { group: brootware }
+    - { group: "{{ target_group }}" }
     - { group: ansible }
 
 - name: users | brootware | create user
   tags: brootware,sudo,users
   ansible.builtin.user:
-    name: brootware
-    group: brootware
+    name: "{{ target_username }}"
+    group: "{{ target_group }}"
     groups: adm,ansible,{{ sudo_group }}
     state: present
     comment: "brootware "
