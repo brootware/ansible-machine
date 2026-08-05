@@ -20,7 +20,7 @@
 
 - name: update_xdg
   tags: users,config,xdg
-  become_user: brootware
+  become_user: "{{ target_username }}"
   ansible.builtin.command: /usr/bin/xdg-user-dirs-update
   changed_when: false
 

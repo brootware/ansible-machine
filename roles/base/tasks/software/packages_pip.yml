@@ -1,7 +1,6 @@
 - name: system setup | pipx packages | install bpytop
   tags: bpytop,packages,pipx,python
-  become_user: brootware
+  become_user: "{{ target_username }}"
   community.general.pipx:
     state: present
     name: bpytop
-  ignore_errors: true
