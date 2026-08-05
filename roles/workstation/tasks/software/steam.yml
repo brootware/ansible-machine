@@ -2,7 +2,7 @@
 # Note: Not required in Pop OS, apparently
 - name: steam | add multiarch (debian, ubuntu)
   tags: steam,steam,multiarch
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /var/lib/dpkg/arch
     regexp: "^i386"
     line: "i386"
