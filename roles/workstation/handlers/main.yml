@@ -13,6 +13,11 @@
     name: earlyoom
     state: restarted
 
+- name: Restart xrdp service
+  ansible.builtin.service:
+    name: xrdp
+    state: restarted
+
 - name: update_xdg
   tags: users,config,xdg
   become_user: brootware
