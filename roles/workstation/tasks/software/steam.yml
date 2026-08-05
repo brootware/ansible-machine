@@ -10,7 +10,7 @@
   when:
     - ansible_facts.distribution in ['Debian', 'Ubuntu']
     - steam is defined
-    - steam == true
+    - steam
 
 # For Debian and Ubuntu, set up acceptance of steam license before continuing
 - name: software | steam | accept license
@@ -23,7 +23,7 @@
   when:
     - ansible_facts.distribution in ["Debian", "Ubuntu"]
     - steam is defined
-    - steam == true
+    - steam
 
 - name: software | steam | install package
   tags: steam,steam
@@ -32,7 +32,7 @@
     name: "{{ steam_package }}"
   when:
     - steam is defined
-    - steam == true
+    - steam
 
 - name: software | steam | install steam-devices package (debian, ubuntu, etc)
   tags: steam,steam
@@ -42,7 +42,7 @@
   when:
     - ansible_facts.distribution in ["Debian", "Pop!_OS", "Ubuntu"]
     - steam is defined
-    - steam == true
+    - steam
 
 - name: install vulkan drivers (debian, ubuntu, etc)
   tags: drivers,steam
@@ -52,4 +52,4 @@
   when:
     - ansible_facts.distribution in ["Debian", "Pop!_OS", "Ubuntu"]
     - steam is defined
-    - steam == true
+    - steam
