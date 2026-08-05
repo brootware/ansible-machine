@@ -29,3 +29,10 @@ vagrant_version: 2.2.14
 virtualbox_package: virtualbox-6.1
 wireless_tools_package: wireless-tools
 wpa_supplicant_package: wpasupplicant
+flatpaks:
+  - org.signal.Signal
+  - org.gnome.DejaDup
+  - org.telegram.desktop
+  - org.gnome.Extensions
+  - com.github.tchx84.Flatseal
+  - com.github.johnfactotum.Foliate
