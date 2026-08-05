@@ -8,14 +8,9 @@ Install Zsh and OhMyZsh for Ubuntu or Debian based distros.
 
 ```bash
 sudo apt install zsh curl git pipx python3-passlib -y
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 pipx install --include-deps ansible
 pipx ensurepath
-```
-
-Not compulsory but you can install this too
-
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
 If you are on ubuntu 26, add yourself to no passwd suoders.
@@ -40,6 +35,12 @@ workstation:
       mac: true
 ```
 
+Force set sudo to classic binary on ubuntu 26
+
+```bash
+sudo update-alternatives --set sudo /usr/bin/sudo.ws
+```
+
 ## 1 script install (Linux,Mac)
 
 This will install the dotfiles from this repo to your machine.
@@ -50,10 +51,6 @@ curl https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main
 ```
 
 Once you're done, remove the earlier suoders file you created.
-
-```bash
-sudo rm -f /etc/sudoers.d/dont-prompt-$USER-for-sudo-password
-```
 
 ## 1 script install (Windows)
 
