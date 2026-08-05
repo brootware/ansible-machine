@@ -1,0 +1,6 @@
+- name: Install personalised flatpak packages.
+  community.general.flatpak:
+    state: present
+    method: system
+    name: "{{ flatpaks }}"
+  ignore_errors: true
