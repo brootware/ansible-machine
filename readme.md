@@ -11,7 +11,7 @@ sudo apt install zsh curl git pipx python3-passlib -y
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 pipx install --include-deps ansible
 pipx ensurepath
-sourcee ~/.zshrc
+source ~/.zshrc
 ```
 
 Define your hostname under [hosts.yml](hosts.yml) locally, together with the variables.
