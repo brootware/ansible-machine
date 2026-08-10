@@ -43,6 +43,7 @@ alias ssha='eval $(ssh-agent) && ssh-add'
 alias svim='sudo vim'
 alias tn='tmux new -s'
 alias wget='wget -c'
+alias services="sudo systemctl list-units --type=service --state=running"
 
 ## get top process eating memory
 alias psmem='ps auxf | sort -nr -k 4'

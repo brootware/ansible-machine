@@ -43,6 +43,7 @@ alias watch='watch -d'
 alias weather='curl wttr.in'
 alias wget='wget -c'
 alias q="~ && clear"
+alias services="sudo systemctl list-units --type=service --state=running"
 
 if command -v colordiff > /dev/null 2>&1; then
     alias diff="colordiff -Nuar"
