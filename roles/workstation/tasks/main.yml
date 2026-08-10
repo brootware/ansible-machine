@@ -17,13 +17,12 @@
     ## install software
     - ansible.builtin.import_tasks: software/brave_browser.yml
     - ansible.builtin.import_tasks: software/steam.yml
-    - ansible.builtin.import_tasks: software/sunshine.yml
     - ansible.builtin.import_tasks: software/snap_packages.yml
       when: ansible_facts.distribution == 'Ubuntu'
     - ansible.builtin.import_tasks: software/enable_rdp.yml
       when: ansible_facts.distribution == 'Linux Mint'
     - ansible.builtin.import_tasks: software/flatpak_packages.yml
       when: ansible_facts.distribution == 'Linux Mint'
-
     - ansible.builtin.import_tasks: software/gnome_packages.yml
       when: ansible_facts.distribution == 'Debian' or ansible_facts.distribution == 'Ubuntu'
+    - ansible.builtin.import_tasks: software/sunshine.yml
