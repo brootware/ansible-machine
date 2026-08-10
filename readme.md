@@ -11,12 +11,7 @@ sudo apt install zsh curl git pipx python3-passlib -y
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 pipx install --include-deps ansible
 pipx ensurepath
-```
-
-If you are on ubuntu 26, add yourself to no passwd suoders.
-
-```bash
-echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dont-prompt-$USER-for-sudo-password
+sourcee ~/.zshrc
 ```
 
 Define your hostname under [hosts.yml](hosts.yml) locally, together with the variables.
