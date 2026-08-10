@@ -36,4 +36,4 @@ flatpaks:
   - org.gnome.Extensions
   - com.github.tchx84.Flatseal
   - com.github.johnfactotum.Foliate
-sunshine_package_name: sunshine-debian-trixie-amd64.deb
+  - dev.lizardbyte.app.Sunshine

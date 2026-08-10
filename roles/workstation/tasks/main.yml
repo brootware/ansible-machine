@@ -26,3 +26,4 @@
     - ansible.builtin.import_tasks: software/gnome_packages.yml
       when: ansible_facts.distribution == 'Debian' or ansible_facts.distribution == 'Ubuntu'
     - ansible.builtin.import_tasks: software/sunshine.yml
+      when: ansible_facts.distribution != 'Linux Mint'
