@@ -29,3 +29,4 @@ vagrant_version: 2.2.14
 virtualbox_package: virtualbox-6.1
 wireless_tools_package: wireless-tools
 wpa_supplicant_package: wpasupplicant
+sunshine_package_name: sunshine-debian-trixie-amd64.deb
