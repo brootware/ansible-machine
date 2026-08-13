@@ -38,4 +38,4 @@
 
   rescue:
   - ansible.builtin.set_fact:
-    task_failed: true
+      task_failed: true
