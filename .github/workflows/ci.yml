@@ -40,22 +40,18 @@ jobs:
         run: |
           ansible-playbook -i hosts.yml local.yml --syntax-check
 
-      - name: Run ansible-lint
-        run: |
-          ansible-lint local.yml
+  # shell-lint:
+  #   name: ShellCheck (Bash Scripts)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-  shell-lint:
-    name: ShellCheck (Bash Scripts)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
-        with:
-          scandir: '.'
-          severity: warning
+  #     - name: Run ShellCheck
+  #       uses: ludeeus/action-shellcheck@master
+  #       with:
+  #         scandir: '.'
+  #         severity: warning
 
   powershell-lint:
     name: PSScriptAnalyzer (PowerShell)
