@@ -1,6 +1,6 @@
 # Ansible Machine 💻
 
-An automated infrastructure-as-code (IaC) and dotfiles repository to bootstrap, configure, and maintain Linux workstations, headless servers, Proxmox virtualization guests, macOS devices, and Windows environments using Ansible (`ansible-pull` / `ansible-playbook`) and standalone bootstrap scripts.
+An automated infrastructure-as-code (IaC) and dotfiles repository to bootstrap, configure, and maintain Linux workstations, headless servers, Proxmox virtualization guests, macOS devices, and Windows environments using Ansible (`ansible-pull` / `ansible-playbook`) and standalone bootstrap scripts wihtin my homelab.
 
 ---
 
@@ -117,7 +117,7 @@ source ~/.zshrc  # or source ~/.bashrc
 
 ### Linux (Full Setup)
 
-Downloads and executes `bootstrap.sh` to install dependencies, verify your hostname in `hosts.yml`, set up collections, and run `ansible-pull`:
+Downloads and executes `bootstrap.sh` to install dependencies, ensure your hostname is defined in[`hosts.yml`](./hosts.yml), set up collections, and run `ansible-pull`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/brootware/ansible-machine/refs/heads/main/bootstrap.sh -o bootstrap.sh && chmod +x bootstrap.sh
