@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/brootware/ansible-machine/actions/workflows/ci.yml/badge.svg)](https://github.com/brootware/ansible-machine/actions/workflows/ci.yml)
 
-An automated infrastructure-as-code (IaC) and dotfiles repository to bootstrap, configure, and maintain Linux workstations, headless servers, Proxmox virtualization guests, macOS devices, and Windows environments using Ansible (`ansible-pull` / `ansible-playbook`) and standalone bootstrap scripts wihtin my homelab.
+An automated infrastructure-as-code (IaC) and dotfiles repository to bootstrap, configure, and maintain Linux workstations, headless servers, Proxmox virtualization guests, macOS devices, and Windows environments using Ansible (`ansible-pull` / `ansible-playbook`) and standalone wihtin my homelab. Although most of the parts are written by AI, I debug, test and validate extensively on multiple machines. You can fork, modify and use this repository as your own.
 
 ---
 
