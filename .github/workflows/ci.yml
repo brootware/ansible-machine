@@ -7,8 +7,8 @@ on:
     branches: ["main"]
 
 jobs:
-  lint:
-    name: Ansible Syntax Check
+  ansible-quality:
+    name: Ansible Syntax, Inventory & Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -17,11 +17,85 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
 
-      - name: Install Ansible and ansible-lint
-        run: pip install ansible ansible-lint
+      - name: Install Python tools & linters
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible ansible-lint yamllint
 
-      - name: Run ansible-playbook syntax-check
-        # Checks the main playbook used by ansible-pull for syntax errors.
-        run: ansible-playbook local.yml --syntax-check
+      - name: Install Ansible Galaxy Collections
+        run: |
+          ansible-galaxy collection install -r collections/requirements.yml
+
+      - name: Validate YAML format
+        run: |
+          yamllint . -d "{extends: relaxed, rules: {line-length: disable}}"
+
+      - name: Validate Inventory
+        run: |
+          ansible-inventory -i hosts.yml --list
+
+      - name: Ansible Playbook Syntax Check
+        run: |
+          ansible-playbook -i hosts.yml local.yml --syntax-check
+
+      - name: Run ansible-lint
+        run: |
+          ansible-lint local.yml
+
+  shell-lint:
+    name: ShellCheck (Bash Scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+          severity: warning
+
+  powershell-lint:
+    name: PSScriptAnalyzer (PowerShell)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error,Warning
+          if ($results) {
+            $results | Format-Table -AutoSize
+            $errors = $results | Where-Object { $_.Severity -eq 'Error' }
+            if ($errors.Count -gt 0) {
+              Write-Error "PSScriptAnalyzer found $($errors.Count) error(s)."
+              exit 1
+            }
+          } else {
+            Write-Host "PSScriptAnalyzer passed cleanly."
+          }
+
+  python-lint:
+    name: Python Lint (Flake8)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install flake8
+        run: |
+          pip install flake8
+
+      - name: Run Flake8
+        run: |
+          flake8 --count --max-line-length=127 --statistics roles/
