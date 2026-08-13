@@ -37,6 +37,5 @@
   - ansible.builtin.import_tasks: system_setup/scripts.yml
 
   rescue:
-    - ansible.builtin.set_fact:
-        task_failed: true
-
+  - ansible.builtin.set_fact:
+    task_failed: true

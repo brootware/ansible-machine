@@ -33,31 +33,29 @@
 - hosts: all
   become: true
   tasks:
-  - name: cleanup package cache (debian and ubuntu)
-    tags: always
-    ansible.builtin.apt:
-      autoclean: true
-    changed_when: false
-    when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
+    - name: cleanup package cache (debian and ubuntu)
+      tags: always
+      ansible.builtin.apt:
+        autoclean: true
+      changed_when: false
+      when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
-  - name: autoremove orphan packages (debian and ubuntu)
-    tags: always
-    ansible.builtin.apt:
-      autoremove: true
-      purge: true
-    when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
+    - name: autoremove orphan packages (debian and ubuntu)
+      tags: always
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
+      when: ansible_facts.distribution in ["Debian", "Linux Mint", "Ubuntu"]
 
-  - name: send completion alert
-    ansible.builtin.include_tasks: playbooks/send_completion_alert.yml
-    tags: always
-    when:
-      - task_failed is not defined
+    - name: send completion alert
+      ansible.builtin.include_tasks: playbooks/send_completion_alert.yml
+      tags: always
+      when:
+        - task_failed is not defined
 
-  - name: send failure alert
-    ansible.builtin.include_tasks: playbooks/send_failure_alert.yml
-    tags: always
-    when:
-      - task_failed is defined
-      - task_failed == true
-
-
+    - name: send failure alert
+      ansible.builtin.include_tasks: playbooks/send_failure_alert.yml
+      tags: always
+      when:
+        - task_failed is defined
+        - task_failed == true
