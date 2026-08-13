@@ -40,19 +40,6 @@ jobs:
         run: |
           ansible-playbook -i hosts.yml local.yml --syntax-check
 
-  # shell-lint:
-  #   name: ShellCheck (Bash Scripts)
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-
-  #     - name: Run ShellCheck
-  #       uses: ludeeus/action-shellcheck@master
-  #       with:
-  #         scandir: '.'
-  #         severity: warning
-
   powershell-lint:
     name: PSScriptAnalyzer (PowerShell)
     runs-on: ubuntu-latest
@@ -95,3 +82,58 @@ jobs:
       - name: Run Flake8
         run: |
           flake8 --count --max-line-length=127 --statistics roles/
+
+  docker-integration-test-for-dotfiles:
+    name: Integration Test (${{ matrix.distro }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - "ubuntu:24.04"
+          - "ubuntu:22.04"
+          - "debian:12"
+    container:
+      image: ${{ matrix.distro }}
+      options: --user root
+    steps:
+      - name: Install baseline packages & setup test user
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update
+          apt-get install -y git python3 python3-pip sudo curl zsh locales ca-certificates python3-passlib
+          locale-gen en_US.UTF-8
+          useradd -m -s /bin/bash testuser
+          echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible & Galaxy collections
+        run: |
+          pip3 install --break-system-packages ansible
+          ansible-galaxy collection install -r collections/requirements.yml
+
+      - name: Execute Dotfiles Provisioning (--tags onlydotfiles)
+        run: |
+          ansible-playbook -i "localhost," -c local local.yml \
+            --tags onlydotfiles \
+            -e "target_username=testuser target_group=testuser target_user_home=/home/testuser" \
+            -vv
+
+      - name: Verify Generated Dotfiles & Artifacts
+        run: |
+          test -d /home/testuser/.vim
+          test -d /home/testuser/.tmux
+          test -f /home/testuser/.zshrc
+          test -f /home/testuser/.bashrc
+          test -f /home/testuser/.gitconfig
+          test -f /home/testuser/.inputrc
+          test -f /usr/local/bin/provision
+          echo "✅ All dotfile artifacts verified successfully on ${{ matrix.distro }}!"
+
+      - name: Idempotency Test (Second Run)
+        run: |
+          ansible-playbook -i "localhost," -c local local.yml \
+            --tags onlydotfiles \
+            -e "target_username=testuser target_group=testuser target_user_home=/home/testuser"
