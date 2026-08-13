@@ -1,5 +1,7 @@
 # Ansible Machine 💻
 
+[![CI](https://github.com/brootware/ansible-machine/actions/workflows/ci.yml/badge.svg)](https://github.com/brootware/ansible-machine/actions/workflows/ci.yml)
+
 An automated infrastructure-as-code (IaC) and dotfiles repository to bootstrap, configure, and maintain Linux workstations, headless servers, Proxmox virtualization guests, macOS devices, and Windows environments using Ansible (`ansible-pull` / `ansible-playbook`) and standalone bootstrap scripts wihtin my homelab.
 
 ---
