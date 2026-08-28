@@ -1,0 +1,15 @@
+[Unit]
+Description=Headless GNOME Wayland Session
+After=network.target
+
+[Service]
+Type=simple
+Environment=XDG_SESSION_TYPE=wayland
+Environment=XDG_CURRENT_DESKTOP=GNOME
+Environment=GNOME_SETUP_INITIAL_SETUP_DONE=1
+ExecStart=/usr/bin/gnome-shell --wayland --headless --virtual-monitor 1920x1080
+Restart=on-failure
+User=brootware
+
+[Install]
+WantedBy=default.target
