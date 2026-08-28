@@ -1,8 +1,7 @@
-# ~/.config/systemd/user/sunshine.service
+# should be located at ~/.config/systemd/user/sunshine.service
 [Unit]
 Description=Sunshine self-hosted game stream host for Moonlight
 After=graphical-session.target
-PartOf=graphical-session.target
 Requisite=graphical-session.target
 
 [Service]
@@ -10,13 +9,6 @@ Type=simple
 ExecStart=/usr/bin/sunshine
 Restart=on-failure
 RestartSec=5s
-
-# Preserve Linux capabilities when running unprivileged as a user unit
-AmbientCapabilities=CAP_SYS_ADMIN CAP_SYS_NICE
-CapabilityBoundingSet=CAP_SYS_ADMIN CAP_SYS_NICE
-
-# Ensure desktop/Wayland session environment variables pass through cleanly
-PassEnvironment=DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR
 
 [Install]
 WantedBy=graphical-session.target
