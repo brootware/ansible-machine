@@ -34,6 +34,10 @@ Host sue
   HostName 192.168.10.13
   User root
 
+Host hope
+  HostName 192.168.10.14
+  User root
+
 Host ansible
   Hostname aap.bruteware.cc
   User sysadmin
