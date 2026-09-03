@@ -46,6 +46,10 @@ Host glance
   Hostname startbox.bruteware.cc
   User brootware
 
+Host gamingpc
+  Hostname gamingpc.bruteware.cc
+  User brootware
+
 ##################################################################
 # pwn college ctf machine                                        #
 ##################################################################
