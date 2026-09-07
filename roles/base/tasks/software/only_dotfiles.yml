@@ -57,6 +57,7 @@
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
+  ignore_errors: true
 
 - name: only dotfiles setup | clone tmux-continuum plugin repository
   tags: onlydotfiles,mac,users,tmux
@@ -67,6 +68,7 @@
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
+  ignore_errors: true
 
 - name: only dotfiles setup | clone tmux-resurrect plugin repository
   tags: onlydotfiles,mac,users,tmux
@@ -77,6 +79,7 @@
   notify: update_tmux_plugin_perms
   become: true
   become_user: "{{ target_username }}"
+  ignore_errors: true
 
 - name: only dotfiles setup | copy dotfiles
   tags: onlydotfiles,mac,tmux,users,vim,zsh
