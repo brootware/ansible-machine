@@ -17,6 +17,8 @@ rename_package: rename
 ruby_rake_package: rake
 sftp_path: /usr/lib/openssh/sftp-server
 sudo_group: sudo
+tesseract_package: tesseract-ocr
+tesseract_lang_package: tesseract-ocr-eng
 vim_package: vim-nox
 neofetch_package: neofetch
 target_username: brootware

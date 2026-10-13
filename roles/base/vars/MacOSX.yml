@@ -2,3 +2,5 @@ sudo_group: sudo
 target_username: bruce
 target_user_home: /Users/bruce
 target_group: staff
+tesseract_package: tesseract
+tesseract_lang_package: tesseract-lang

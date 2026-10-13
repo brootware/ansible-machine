@@ -25,6 +25,8 @@
       - sshfs
       - tmux
       - traceroute
+      - "{{ tesseract_package }}"
+      - "{{ tesseract_lang_package }}"
       - "{{ vim_package }}"
       - wget
       - whois
