@@ -43,6 +43,7 @@ alias weather='curl wttr.in'
 alias wget='wget -c'
 alias q="cd ~ && clear"
 alias services="sudo systemctl list-units --type=service --state=running"
+alias readimage=tesseract
 
 ## get top process eating memory
 alias mem5='ps auxf | sort -nr -k 4 | head -5'

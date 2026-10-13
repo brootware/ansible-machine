@@ -54,6 +54,8 @@ alias ssha='eval $(ssh-agent) && ssh-add'
 alias svim='sudo vim'
 alias tn=' tmux new -s'
 alias wget='wget -c'
+alias services="systemctl list-units --type=service --state=running"
+alias readimage=tesseract
 
 if command -v colordiff > /dev/null 2>&1; then
     alias diff="colordiff -Nuar"

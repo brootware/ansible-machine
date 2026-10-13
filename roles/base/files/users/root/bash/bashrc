@@ -44,6 +44,7 @@ alias svim='sudo vim'
 alias tn='tmux new -s'
 alias wget='wget -c'
 alias services="sudo systemctl list-units --type=service --state=running"
+alias readimage=tesseract
 
 ## get top process eating memory
 alias psmem='ps auxf | sort -nr -k 4'
