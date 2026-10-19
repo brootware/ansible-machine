@@ -1,3 +1,12 @@
+---
+- name: gnome | mutter | set check-alive-timeout to 8 seconds (8000 ms). Prevent steam unresonsive trigger.
+  tags: gnome,mutter,extensions
+  become_user: "{{ target_username }}"
+  community.general.dconf:
+    key: "/org/gnome/mutter/check-alive-timeout"
+    value: "uint32 8000"
+    state: present
+
 - name: gnome | nautilus | enable tree-view in nautilus
   tags: gnome,nautilus
   become_user: "{{ target_username }}"
